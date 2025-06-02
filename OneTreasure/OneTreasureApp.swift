@@ -12,6 +12,7 @@ struct OneTreasureApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .background(.accent)
         }
     }
 }

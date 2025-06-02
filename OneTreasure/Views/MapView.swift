@@ -10,56 +10,39 @@ import SwiftUI
 struct MapView: View {
     @ObservedObject var gameVM: GameViewModel
     
-    let gemObject = Object(name: "gems", question: "2+2", choices: ["3", "4", "6", "8"], answer: 1)
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+//    let islands = ["volcanoIsland", "lockedBottom", "lockedTop", "lockedBottom", "lockedTop"]
     
     var body: some View {
         NavigationView {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
-                    Text("Captain's Log: Choose Your Next Destination!")
-                        .font(.title2)
-                        .fontWeight(.bold)
-                        .padding(.horizontal)
-                    
                     if let islands = gameVM.gameData?.islands {
                         ForEach(islands) { island in
                             islandRow(for: island)
                         }
                     } else {
                         Text("Loading map data...")
-                            .padding()
                     }
                 }
-                .padding()
             }
-            .navigationTitle("The World Map")
-            .navigationBarTitleDisplayMode(.large)
+            
+            
+            
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
                         gameVM.navigateToHome()
                     } label: {
-                        Image(systemName: "house.fill")
-                        Text("Home")
+                        ButtonView(btnType: .icon("leftArrow"))
+                        Text("Go back")
+                            .foregroundColor(.black)
                     }
                 }
             }
         }
-        .accentColor(.orange)
-//        VStack {
-//            Text("Collected Fragments: \(gameVM.playerProgress.collectedFragments) / 4")
-//                .padding(20)
-//            
-//            NavigationLink(destination: DummyIslandView(viewModel: dummyIslandVM, gameViewModel: gameVM)
-//                .ignoresSafeArea(edges: .all)
-//            ) {
-//                Text("This is first map")
-//            }
-//            
-//            Text("This is second map")
-//            Text("This is third map")
-//            Text("This is first map")
-//        }
+
+
     }
     
     @ViewBuilder
@@ -82,20 +65,6 @@ struct MapView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 8))
                     .overlay(RoundedRectangle(cornerRadius: 8)
                         .stroke(isUnlocked ? Color.green : Color.gray, lineWidth: 2))
-                
-                VStack(alignment: .leading) {
-                    Text(island.name)
-                        .font(.headline)
-                        .fontWeight(.semibold)
-                    
-                    Text(island.descriptionText)
-                        .font(.caption)
-                        .lineLimit(2)
-                        .foregroundColor(.secondary)
-                }
-                
-                Spacer()
-                
                 if isSolved {
                     Image(systemName: "checkmark.seal.fill")
                         .foregroundColor(.green)
@@ -120,7 +89,17 @@ extension IslandType {
     var previewImageName: String {
         switch self {
         case .dummySoundQuest:
-            return "compass"
+            return "compas"
+        case .volcanoSoundQuest:
+            return "volcano_island"
+        case .moonSoundQuest:
+            return "moon_island"
+        case .jungleSoundQuest:
+            return "jungle_island"
+        case .iceSoundQuest:
+            return "ice_island"
+        case .stormSoundQuest:
+            return "storm_island"
         }
     }
 }

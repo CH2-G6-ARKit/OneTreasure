@@ -12,7 +12,7 @@ struct IslandView: View {
     @State var showPopUp = false
     @State private var shouldRetry = false
     @State private var currentPopUpType: PopUpView.Types? = nil
-    @EnvironmentObject var gameData: GameModel
+//    @EnvironmentObject var gameData: GameModel
 
     
     func handleAnswer(isCorrect: Bool) {
@@ -21,8 +21,8 @@ struct IslandView: View {
         if isCorrect {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 currentPopUpType = .fragment
-                gameData.addCollectedFragment()
-                gameData.resetChances()
+//                gameData.addCollectedFragment()
+//                gameData.resetChances()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     showPopUp = false
                     selectedPart = nil
@@ -35,13 +35,13 @@ struct IslandView: View {
     }
 
     func retryAction() {
-        currentPopUpType = .question(gemObject)
-        gameData.decreaseAnswerChances()
+//        currentPopUpType = .question(gemObject)
+//        gameData.decreaseAnswerChances()
         shouldRetry = false
     }
 
     
-    let gemObject = Object(name: "gems", question: "2+2", choices: ["3", "4", "6", "8"], answer: 1)
+//    let gemObject = Object(name: "gems", question: "2+2", choices: ["3", "4", "6", "8"], answer: 1)
     
     var body: some View {
         ZStack(alignment: .topTrailing) {
@@ -58,7 +58,7 @@ struct IslandView: View {
             .offset(x:300, y:-120)
             .zIndex(1)
             
-            if let part = selectedPart, part != gemObject.name {
+            if let part = selectedPart, part != "gems" {
                 VStack {
                     Spacer()
                     Text("clicked")
@@ -82,8 +82,8 @@ struct IslandView: View {
         }
         // Listen to changes in selectedPart to control the popup
         .onChange(of: selectedPart) { newValue in
-            if newValue == gemObject.name {
-                currentPopUpType = .question(gemObject)
+            if newValue == "gems" {
+//                currentPopUpType = .question(gemObject)
                 showPopUp = true
             }
         }

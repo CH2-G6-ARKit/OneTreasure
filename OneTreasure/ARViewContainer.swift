@@ -10,7 +10,7 @@ import ARKit
 
 struct ARViewContainer: UIViewRepresentable {
     @Binding var selectedPart: String?
-    let gem = Object(name: "gems", question: "2+2", choices: ["3", "4", "6", "8"], answer: 1)
+//    let gem = Object(name: "gems", question: "2+2", choices: ["3", "4", "6", "8"], answer: 1)
     
 //    func printEntities(_ entity: Entity, level: Int = 0) {
 //        let indent = String(repeating: "  ", count: level)
@@ -76,19 +76,19 @@ struct ARViewContainer: UIViewRepresentable {
     
     func updateUIView(_ uiView: ARView, context: Context) {
         let anchor = AnchorEntity(plane: .horizontal)
+//        
+//        let island = IslandEntity()
+//        let chest = ChestEntity()
+//        let bird = BirdEntity()
         
-        let island = IslandEntity()
-        let chest = ChestEntity()
-        let bird = BirdEntity()
+//        chest.generateCollisionShapes(recursive: true)
+//        bird.generateCollisionShapes(recursive: true)
+//        
+//        anchor.addChild(island)
+//        island.addChild(chest)
+//        island.addChild(bird)
         
-        chest.generateCollisionShapes(recursive: true)
-        bird.generateCollisionShapes(recursive: true)
-        
-        anchor.addChild(island)
-        island.addChild(chest)
-        island.addChild(bird)
-        
-        AudioManager.attachBirdSound(to: bird)
+//        AudioManager.attachBirdSound(to: bird)
         
 //        uiView.scene.anchors.append(anchor)
         uiView.scene.addAnchor(anchor)
