@@ -89,16 +89,16 @@ struct DummyIslandView: View {
             .animation(.spring(response: 0.4, dampingFraction: 0.6), value: viewModel.isChestVisibleAndInteractive)
             
             if let riddleViewModel = viewModel.riddleViewModel {
-                RiddleView(viewModel: riddleViewModel)
-                    .padding(20)
-                    .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 25, style: .continuous))
-                    .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
-                    .shadow(color: .black.opacity(0.3), radius: 20, x: 0, y: 10)
-                    .padding(30)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(Color.black.opacity(0.45).edgesIgnoringSafeArea(.all))
-                    .transition(.move(edge: .bottom).combined(with: .opacity))
+                
+                Color.black.opacity(0.75)
+                    .edgesIgnoringSafeArea(.all)
+                    .transition(.opacity)
                     .zIndex(1)
+                
+                RiddleView(viewModel: riddleViewModel)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+                    .zIndex(2)
             }
         }
         .animation(.default, value: viewModel.riddleViewModel == nil)

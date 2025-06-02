@@ -13,16 +13,10 @@ struct RiddleView: View {
     
     var body: some View {
         ZStack {
-            ShadowedRoundedBackground(width: 450, height: 280)
+            ShadowedRoundedBackground(width: 450, height: 250)
             
             VStack {
                 VStack(spacing: 16) {
-//                    Text(viewModel.currentQuestionPrompt)
-//                        .foregroundColor(.dark)
-//                        .font(.londrinaBody)
-//                        .multilineTextAlignment(.center)
-//                        .padding([.top])
-                    
                     Group {
                         switch viewModel.riddleContentType {
                         case .multipleOptions:
@@ -36,11 +30,6 @@ struct RiddleView: View {
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     
-                    Button("Close") {
-                        viewModel.userDismissedRiddle()
-                    }
-                    .padding(.top)
-                    .buttonStyle(.bordered)
                 }
                 .frame(width: 450, height: 250)
             }
@@ -50,12 +39,34 @@ struct RiddleView: View {
                 RoundedRectangle(cornerRadius: 10)
                     .stroke(.dark, lineWidth: 4)
             )
-            .padding(.horizontal, 100)
             .transition(.scale.combined(with: .opacity))
-            .onDisappear {
+//            .onDisappear {
+//                viewModel.userDismissedRiddle()
+//            }
+            
+            Button {
                 viewModel.userDismissedRiddle()
+            } label: {
+                Image("close")
+                    .foregroundColor(.dark)
+                    .font(.title2)
             }
+            .offset(x:380, y:-150)
+            .buttonStyle(.plain)
+            
+            Text("SOLVE THE RIDDLE")
+                .foregroundColor(.accent)
+                .font(.londrinaHeadline)
+                .frame(width: 180, height: 50)
+                .background(.dark)
+                .cornerRadius(10)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(.dark, lineWidth: 2)
+                )
+                .offset(y: -(500/3.6))
         }
+        .offset(y:15)
     }
     
     private var multipleOptionsView: some View {
@@ -98,26 +109,21 @@ struct RiddleView: View {
                     }
                 }
             }
-            
-            Spacer()
         }
     }
     
     private var simonSaysPatternView: some View {
-        VStack(spacing: 15) {
-            HStack {
+        VStack(spacing: 10) {
                 Text("Rounds Completed: \(viewModel.simonSays_completedRounds) / \(viewModel.simonSays_sequenceToWin)")
                     .font(.londrinaBody)
                     .foregroundColor(.dark)
                     .multilineTextAlignment(.center)
-                    .padding([.top, .bottom])
+                    .padding(.top)
             
                 Text(viewModel.simonSays_feedbackMessage)
                     .font(.londrinaBody)
                     .foregroundColor(determineFeedbackColor())
                     .multilineTextAlignment(.center)
-            }
-            .padding(.top, 50)
             
             if viewModel.simonSays_numberOfBoxes > 0 {
                 let columnsCount = Int(ceil(sqrt(Double(viewModel.simonSays_numberOfBoxes))))
@@ -136,7 +142,7 @@ struct RiddleView: View {
                                     .font(.londrinaBody)
                                     .frame(width: 60, height: 40)
                                     .foregroundColor(viewModel.simonSays_currentlyHighlightedBox == index && viewModel.simonSays_isDisplayingPattern ? .accent : .dark)
-                                    .background(viewModel.simonSays_currentlyHighlightedBox == index && viewModel.simonSays_isDisplayingPattern ? .dark : .accent)
+                                    .background(determineBoxColor(for: index))
                                     .cornerRadius(10)
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 10)
@@ -172,10 +178,10 @@ struct RiddleView: View {
     
     private func determineBoxColor(for index: Int) -> Color {
         if viewModel.simonSays_currentlyHighlightedBox == index && viewModel.simonSays_isDisplayingPattern {
-            return .yellow
+            return .dark
         }
         
-        return Color.blue.opacity(0.7)
+        return .accent
     }
 }
 
@@ -195,7 +201,8 @@ struct RiddleView_Previews: PreviewProvider {
         let q2_opt1 = RiddleOption(id: "q2o1", text: "Walk the Plank")
         let q2_opt2 = RiddleOption(id: "q2o2", text: "Keelhauling")
         let q2_opt3 = RiddleOption(id: "q2o3", text: "Scrub the Deck (Correct, less severe)")
-        let q2 = MultipleChoiceQuestionItem(id: "q2", itemPrompt: "Which is a common punishment for minor offenses on a pirate ship?", options: [q2_opt1, q2_opt2, q2_opt3], correctAnswerOptionsId: "q2o3")
+        let q2_opt4 = RiddleOption(id: "q2o4", text: "Jump to Ocean")
+        let q2 = MultipleChoiceQuestionItem(id: "q2", itemPrompt: "Which is a common punishment for minor offenses on a pirate ship?", options: [q2_opt1, q2_opt2, q2_opt3, q2_opt4], correctAnswerOptionsId: "q2o3")
         
         let content = RiddleContent.multipleOptions(questions: [q1, q2])
         return RiddleModel(id: "preview_mc_riddle", questionText: "Pirate Code Trivia!", content: content)
