@@ -32,10 +32,10 @@ struct ButtonView: View {
                             .stroke(.dark2, lineWidth: 4)
                     )
             case .icon(let image):
-                ShadowedRoundedBackground(cornerRadius: 30,strokeWidth: 3 , width: 45, height: 45, yOffset: 4)
+                ShadowedRoundedBackground(cornerRadius: 30,strokeWidth: 3 , width: 35, height: 35, yOffset: 3)
                 Image(image)
                     .renderingMode(.template)
-                    .scaleImage(ratio: 1.5, imageName: image)
+                    .scaleImage(ratio: 1.2, imageName: image)
                     .background(.accent)
                     .clipShape(Circle())
                     .foregroundColor(.dark)

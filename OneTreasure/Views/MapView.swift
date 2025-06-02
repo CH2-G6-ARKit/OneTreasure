@@ -14,10 +14,9 @@ struct MapView: View {
     
     var body: some View {
         NavigationView {
-            GeometryReader{ geometry in
                 ZStack{
-//                    Text("Collected Fragments: \() / 4")
-//                        .zIndex(1).offset(x:280, y:-160)
+                    Text("Collected Fragments: \(gameVM.playerProgress.collectedFragments) / 4")
+                                            .zIndex(1).offset(x:280, y:-160)
                     ScrollView(.horizontal, showsIndicators: false) {
                         ZStack{
                             Image("decoration")
@@ -27,14 +26,6 @@ struct MapView: View {
                                 .scaleImage(ratio: 0.22, imageName: "mapTrail")
                                 .offset(x:-10)
                             HStack(spacing: 120) {
-//                                ForEach(islands, id: \.self) {i in
-//                                    NavigationLink(destination: IslandView().environmentObject(gameData)
-//                                        .ignoresSafeArea(edges: .all)
-//                                    ) {
-//                                        Image("\(i)")
-//                                            .scaleImage(ratio: 0.25, imageName: "\(i)")
-//                                    }
-//                                }
                                 if let islands = gameVM.gameData?.islands {
                                     ForEach(islands) { island in
                                         islandRow(for: island)
@@ -44,66 +35,52 @@ struct MapView: View {
                                 }
                             }
                         }
+                        .frame(maxHeight: 500)
                     }
-                }
-                .frame(width: geometry.size.width, height: geometry.size.height)
-                .background(.accent)
+                    .background(.accent)
             }
-//            ScrollView {
-//                VStack(alignment: .leading, spacing: 20) {
-//                    if let islands = gameVM.gameData?.islands {
-//                        ForEach(islands) { island in
-//                            islandRow(for: island)
-//                        }
-//                    } else {
-//                        Text("Loading map data...")
-//                    }
-//                }
-//            }
-            
-            
-            
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
                         gameVM.navigateToHome()
                     } label: {
                         ButtonView(btnType: .icon("leftArrow"))
-                        Text("Go back")
-                            .foregroundColor(.black)
+                        Text("SELECT LEVEL")
+                            .outlinedText(strokeColor: .dark, textColor: .accent, lineWidth: 3)
+                            .font(.londrinaTitle)
                     }
+                    .padding(.top, 20)
                 }
             }
         }
-
-
+        
+        
     }
     
     @ViewBuilder
     private func islandRow(for island: BaseIsland) -> some View {
-        let isUnlocked = gameVM.playerProgress.unlockedIslandIds.contains(island.id)
-        let isSolved = island.awardsFragmentOrder < gameVM.playerProgress.collectedFragments
+        //        let isUnlocked = gameVM.playerProgress.unlockedIslandIds.contains(island.id)
+        //        let isSolved = island.awardsFragmentOrder < gameVM.playerProgress.collectedFragments
+        let index = gameVM.gameData?.islands.firstIndex(where: { $0.id == island.id }) ?? 0
         
         Button(action: {
-            if isUnlocked {
+            if island.isUnlocked {
                 gameVM.selectIsland(island)
             } else {
                 print("Island \(island.name) is locked.")
             }
         }) {
             HStack(spacing: 15) {
-                if isUnlocked {
-                    Image(island.islandType.previewImageName)
-                } else if !isUnlocked {
-                    Image("locked")
-                        .foregroundColor(.red)
-                        .font(.title2)
-                }
+//                Text(String(index))
+                Image(island.isUnlocked ? island.id : "locked")
+                    .scaleImage(ratio: 0.6, imageName: island.isUnlocked ? island.id : "locked")
+                    .offset(y: index%2 == 1 ? 70 : -70)
+                
             }
             .padding()
         }
         .buttonStyle(PlainButtonStyle())
-        .disabled(!isUnlocked && !isSolved)
+        .disabled(island.isUnlocked == false)
     }
 }
 

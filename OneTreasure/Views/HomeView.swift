@@ -7,19 +7,6 @@
 
 import SwiftUI
 
-extension Image {
-    func scaleImage(ratio: Double, imageName: String) -> some View {
-        let uiImage = UIImage(named: imageName)!
-        
-        var size = uiImage.size
-        size = CGSize(width: size.width * ratio, height: size.height * ratio)
-        
-        return self
-            .resizable()
-            .frame(width: size.width, height: size.height)
-    }
-}
-
 struct HomeView: View {
     @StateObject var gameVM: GameViewModel
     

@@ -23,7 +23,7 @@ extension Text {
             ], id: \.self) { offset in
                 self
                     .foregroundColor(strokeColor) // Stroke color
-                    .offset(x: offset.width, y: offset.height+3)
+                    .offset(x: offset.width, y: offset.height+2)
             }
 
             // Main centered text
@@ -51,5 +51,19 @@ struct ShadowedRoundedBackground: View {
                     .stroke(strokeColor, lineWidth: strokeWidth)
             )
             .offset(y: yOffset)
+    }
+}
+
+
+extension Image {
+    func scaleImage(ratio: Double, imageName: String) -> some View {
+        let uiImage = UIImage(named: imageName)!
+        
+        var size = uiImage.size
+        size = CGSize(width: size.width * ratio, height: size.height * ratio)
+        
+        return self
+            .resizable()
+            .frame(width: size.width, height: size.height)
     }
 }
