@@ -16,6 +16,7 @@ class BaseIsland: Codable, Identifiable{
     let islandType: IslandType
     let awardsFragmentOrder: Int
     let islandThemeModelName: String
+    let islandIcon: String
     
     
     init(
@@ -26,7 +27,8 @@ class BaseIsland: Codable, Identifiable{
         unlocksIslandId: String?,
         islandType: IslandType,
         awardsFragmentOrder: Int,
-        islandThemeModelName: String
+        islandThemeModelName: String,
+        islandIcon: String
     ) {
         self.id = id
         self.name = name
@@ -36,6 +38,7 @@ class BaseIsland: Codable, Identifiable{
         self.islandType = islandType
         self.awardsFragmentOrder = awardsFragmentOrder
         self.islandThemeModelName = islandThemeModelName
+        self.islandIcon = islandIcon
     }
     
     enum CodingKeys: String, CodingKey {
@@ -47,6 +50,7 @@ class BaseIsland: Codable, Identifiable{
         case islandType
         case awardsFragmentOrder
         case islandThemeModelName
+        case islandIcon
     }
     
     required init(from decoder: any Decoder) throws {
@@ -59,6 +63,7 @@ class BaseIsland: Codable, Identifiable{
         islandType = try container.decode(IslandType.self, forKey: .islandType)
         awardsFragmentOrder = try container.decode(Int.self, forKey: .awardsFragmentOrder)
         islandThemeModelName = try container.decode(String.self, forKey: .islandThemeModelName)
+        islandIcon = try container.decode(String.self, forKey: .islandIcon)
     }
     
     func encode(to encoder: any Encoder) throws {
@@ -71,6 +76,7 @@ class BaseIsland: Codable, Identifiable{
         try container.encode(islandType, forKey: .islandType)
         try container.encode(awardsFragmentOrder, forKey: .awardsFragmentOrder)
         try container.encode(islandThemeModelName, forKey: .islandThemeModelName)
+        try container.encode(islandIcon, forKey: .islandIcon)
     }
     
     // to be overridden by subclasses

@@ -21,30 +21,30 @@ struct DummyIslandView: View {
             
             VStack {
                 HStack {
+                    Image(viewModel.islandData.islandIcon)
+                        .resizable()
+                        .frame(width: 40, height: 40)
+                    
                     Text(viewModel.navigationTitle)
-                        .font(.largeTitle)
+                        .font(.londrinaBlackBody)
                         .fontWeight(.bold)
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(Color.black.opacity(0.5))
-                        .cornerRadius(10)
+                        .foregroundColor(.accent)
+                        .padding(.horizontal, 9)
                     
                     Spacer()
                     
                     Button {
                         gameViewModel.exitIsland(arView: ARView())
                     } label: {
-                        Image(systemName: "xmark.circle.fill")
-                            .font(.largeTitle)
-                            .foregroundColor(.white)
-                            .padding(8)
-                            .background(Color.red.opacity(0.7))
-                            .clipShape(Circle())
-                            .shadow(radius: 3)
+                        Image("pause")
+                            .resizable()
+                            .frame(width: 40, height: 40)
+                            .foregroundColor(.dark)
+                            .font(.title2)
                     }
                 }
                 .padding(.horizontal)
-                .padding(.top, (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.safeAreaInsets.top ?? 0)
+                .padding(.top, 24)
                 
                 Spacer()
                 
