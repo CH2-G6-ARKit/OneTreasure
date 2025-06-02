@@ -1,0 +1,157 @@
+{
+    "islands": [
+        {
+            "id": "dummy_island",
+            "name": "dummy island",
+            "descriptionText": "This island serve as a dummy island for developing hifi-prototype purpose",
+            "isUnlocked": true,
+            "unlocksIslandId": "volcano_island",
+            "islandType": "dummySoundQuest",
+            "awardsFragmentOrder": 0,
+            "islandThemeModelName": "edited_island",
+            "chestRiddleId": "riddle_multiple_question",
+            "islandThemePosition": [0, 0, 0],
+            "islandThemeScale": [0.2, 0.2, 0.2],
+            "chestModelFileName": "chest",
+            "chestPosition": [0.016, 0, 0],
+            "chestScale": [0.02, 0.02, 0.02],
+            "birdModelFileName": "crow",
+            "birdPosition": [0.004, 0, 0],
+            "birdScale": [0.05, 0.05, 0.05],
+            "birdAudioFileName": "an_ominous-crow-call-255173.mp3",
+        },
+        {
+            "id": "volcano_island",
+            "name": "volcano island",
+            "descriptionText": "A volcano island, rumbling with ancient power and molten rivers.",
+            "isUnlocked": true,
+            "unlocksIslandId": " ",
+            "islandType": "dummySoundQuest",
+            "awardsFragmentOrder": 0,
+            "islandThemeModelName": "edited_island",
+            "chestRiddleId": "riddle_multiple_question",
+            "islandThemePosition": [0, 0, 0],
+            "islandThemeScale": [1, 1, 1],
+            "chestModelFileName": "chest",
+            "chestPosition": [0.016, 0.288, -0.00658],
+            "chestScale": [0.00002, 0.00002, 0.00002],
+            "birdModelFileName": "crow",
+            "birdPosition": [0.004, 0.288, -0.00658],
+            "birdScale": [0.00005, 0.00005, 0.00005],
+            "birdAudioFileName": "an_ominous-crow-call-255173.mp3",
+        },
+    ],
+    "riddles": [
+        {
+            "id": "riddle_multiple_question",
+            "questionText": "Choose one of the option",
+            "content": {
+                "contentType": "multipleOptions",
+                "payload": {
+                    "questions": [
+                        {
+                            "id": "question_1",
+                            "itemPrompt": "I sail without a sail, glide without a wing, My song is silent, but I'm the ocean's king.",
+                            "options": [
+                                {"id": "opt1", "text": "Whale"},
+                                {"id": "opt2", "text": "Kraken"},
+                                {"id": "opt3", "text": "Shark"},
+                                {"id": "opt4", "text": "Dolphin"}
+                            ],
+                            "correctAnswerOptionsId": "opt3"
+                        },
+                        {
+                            "id": "question_2",
+                            "itemPrompt": "I guard the treasure, silent and cold, My chest holds secrets and ancient gold...",
+                            "options": [
+                                {"id": "opt1", "text": "Barrel"},
+                                {"id": "opt2", "text": "Treasure Chest"},
+                                {"id": "opt3", "text": "Sea Trunk"},
+                                {"id": "opt4", "text": "Clam"}
+                            ],
+                            "correctAnswerOptionsId": "opt2"
+                        },
+                        {
+                            "id": "question_3",
+                            "itemPrompt": "I fly without feathers, yet perch not a day, I follow the stars and lead the way.",
+                            "options": [
+                                {"id": "opt1", "text": "Telescope"},
+                                {"id": "opt2", "text": "Compass Rose"},
+                                {"id": "opt3", "text": "Parrot"},
+                                {"id": "opt4", "text": "Star"}
+                            ],
+                            "correctAnswerOptionsId": "opt2"
+                        },
+                        {
+                            "id": "question_4",
+                            "itemPrompt": "In silence I slither, in darkness I creep, A thousand arms and secrets I keep.",
+                            "options": [
+                                {"id": "opt1", "text": "Eel"},
+                                {"id": "opt2", "text": "Leviathan"},
+                                {"id": "opt3", "text": "Kraken"},
+                                {"id": "opt4", "text": "Octopus"}
+                            ],
+                            "correctAnswerOptionsId": "opt3"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "id": "riddle_simon_says_pattern",
+            "questionText": "The ancient glyphs light up! Memorize and repeat the sequence on the 9 panels.",
+            "content": {
+                "contentType": "simonSaysPattern",
+                "payload": {
+                    "sequence": [
+                        [0, 4, 2, 7, 8],
+                        [2, 4, 6, 8, 0],
+                        [1, 3, 5, 7, 1],
+                        [3, 8, 4, 4, 1],
+                        [1, 3, 4, 5, 7]
+                    ],
+                    "numberOfBoxes": 9,
+                    "sequencesToWin": 3,
+                    "presentationDurationPerElement": 0.5
+                }
+            }
+        }
+    ],
+    "mapFragments": [
+        {
+            "id": "fragment_one",
+            "order": 0,
+            "name": "First Piece of Ship Map",
+            "description": "lorem ipsum dolor sit amet.",
+            "imageName": "map_fragment_0.png"
+        },
+        {
+            "id": "fragment_two",
+            "order": 1,
+            "name": "Second Piece of Ship Map",
+            "description": "lorem ipsum dolor sit amet.",
+            "imageName": "map_fragment_1.png"
+        },
+        {
+            "id": "fragment_three",
+            "order": 2,
+            "name": "Third Piece of Ship Map",
+            "description": "lorem ipsum dolor sit amet.",
+            "imageName": "map_fragment_2.png"
+        },
+        {
+            "id": "fragment_four",
+            "order": 3,
+            "name": "Fourth Piece of Ship Map",
+            "description": "lorem ipsum dolor sit amet.",
+            "imageName": "map_fragment_3.png"
+        },
+    ],
+    "overallMapDisplayStages": [
+        "map_overview_0_pieces.png",
+        "map_overview_1_pieces.png",
+        "map_overview_2_pieces.png",
+        "map_overview_3_pieces.png",
+        "map_overview_4_pieces_complete.png",
+    ]
+}

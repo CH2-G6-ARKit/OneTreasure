@@ -1,0 +1,15 @@
+{
+    "unlockedIslandIds": [
+        "dummy_island"
+    ]
+    "collectedFragments": 0,
+    "answerChances": 3,
+    "currentIslandId": "dummy_island",
+    "activeRiddleState": {
+        "riddleId": "riddle_multiple_question",
+        "islandId": "dummy_island",
+        "currentQuestionBankIndex": 0,
+        "currentSequenceBankIndex": 0,
+        "successfullyCompletedSequence": 0
+    }
+}
