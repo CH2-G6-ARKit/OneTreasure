@@ -25,8 +25,9 @@ struct ContentView: View {
                     MapView(gameVM: gameVM)
                 case .islandExperience:
                     if let islandVM = gameVM.currentIslandViewModel {
-                        if let dummyIslandVM = islandVM as? DummyIslandViewModel {
-                            DummyIslandView(viewModel: dummyIslandVM, gameViewModel: gameVM)
+//                        change to switch case
+                        if let volcanoIslandVM = islandVM as? VolcanoIslandViewModel {
+                            VolcanoIslandView(viewModel: volcanoIslandVM, gameViewModel: gameVM)
                         } else {
                             Text("Error: Unknown island type or ViewModel not set.")
                                 .onAppear {

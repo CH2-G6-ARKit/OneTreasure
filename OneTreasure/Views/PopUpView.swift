@@ -6,33 +6,6 @@
 //
 import SwiftUI
 
-struct ChoiceButton: View {
-    let choice: String
-    let item: MultipleChoiceQuestionItem
-    let action: (String) -> Void
-    
-    var body: some View {
-        Button {
-            action(choice)
-        } label: {
-            ZStack {
-                ShadowedRoundedBackground(strokeWidth: 2, width:150, height:50, yOffset: 4)
-                Text(choice)
-                    .font(.londrinaBody)
-                    .frame(width: 150, height: 50)
-                    .foregroundColor(.dark)
-                    .background(.accent)
-                    .cornerRadius(10)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(.dark, lineWidth: 2)
-                    )
-            }
-        }
-    }
-}
-
-
 struct PopUpView: View {
     @Binding var showPopUp: Bool
     let type: Types

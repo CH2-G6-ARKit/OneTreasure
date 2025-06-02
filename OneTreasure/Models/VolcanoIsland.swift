@@ -1,5 +1,5 @@
 //
-//  DummyIsland.swift
+//  VolcanoIsland.swift
 //  ARIslandGame
 //
 //  Created by stephan on 27/05/25.
@@ -116,6 +116,6 @@ class VolcanoIsland: BaseIsland {
 
     @MainActor
     override func prepareExperienceViewModel(gameViewModel: GameViewModel) -> (any IslandViewModelInterface)? {
-        return DummyIslandViewModel(islandData: self, gameViewModel: gameViewModel)
+        return VolcanoIslandViewModel(islandData: self, gameViewModel: gameViewModel)
     }
 }

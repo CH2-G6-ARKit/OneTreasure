@@ -1,5 +1,5 @@
 //
-//  DummyIslandView.swift
+//  VolcanoIslandView.swift
 //  ARIslandGame
 //
 //  Created by stephan on 28/05/25.
@@ -10,13 +10,13 @@ import RealityKit
 import ARKit
 import Combine
 
-struct DummyIslandView: View {
-    @ObservedObject var viewModel: DummyIslandViewModel
+struct VolcanoIslandView: View {
+    @ObservedObject var viewModel: VolcanoIslandViewModel
     @ObservedObject var gameViewModel: GameViewModel
     
     var body: some View {
         ZStack {
-            DummyIslandARViewContainer(viewModel: viewModel)
+            VolcanoIslandARViewContainer(viewModel: viewModel)
                 .edgesIgnoringSafeArea(.all)
             
             VStack {
@@ -105,8 +105,8 @@ struct DummyIslandView: View {
         .statusBar(hidden: true)
     }
     
-    struct DummyIslandARViewContainer: UIViewRepresentable {
-        @ObservedObject var viewModel: DummyIslandViewModel
+    struct VolcanoIslandARViewContainer: UIViewRepresentable {
+        @ObservedObject var viewModel: VolcanoIslandViewModel
         
         func makeUIView(context: Context) -> ARView {
             let arView = ARView(frame: .zero, cameraMode: .ar, automaticallyConfigureSession: false)
@@ -141,7 +141,7 @@ struct DummyIslandView: View {
         
         @MainActor
         class Coordinator: NSObject, ARSessionDelegate {
-            var viewModel: DummyIslandViewModel
+            var viewModel: VolcanoIslandViewModel
             weak var arView: ARView?
             var cancellables = Set<AnyCancellable>()
             
@@ -150,7 +150,7 @@ struct DummyIslandView: View {
             var chestEntity: ModelEntity?
             var birdEntity: ModelEntity?
             
-            init(viewModel: DummyIslandViewModel) {
+            init(viewModel: VolcanoIslandViewModel) {
                 self.viewModel = viewModel
                 super.init()
             }
@@ -184,8 +184,8 @@ struct DummyIslandView: View {
                         guard let self = self else { return }
                         
                         loadedIslandEntity.name = islandData.islandThemeModelName
-                        loadedIslandEntity.position = islandData.islandThemePosition
-                        loadedIslandEntity.scale = islandData.islandThemeScale
+//                        loadedIslandEntity.position = islandData.islandThemePosition
+//                        loadedIslandEntity.scale = islandData.islandThemeScale
                         
                         parentAnchor.addChild(loadedIslandEntity)
                         self.islandEntity = loadedIslandEntity
@@ -210,8 +210,8 @@ struct DummyIslandView: View {
                         guard let self = self else { return }
                         
                         loadedChestEntity.name = islandData.chestModelFileName
-                        loadedChestEntity.position = islandData.chestPosition
-                        loadedChestEntity.scale = islandData.chestScale
+//                        loadedChestEntity.position = islandData.chestPosition
+//                        loadedChestEntity.scale = islandData.chestScale
                         loadedChestEntity.generateCollisionShapes(recursive: true)
                         
                         parentEntity.addChild(loadedChestEntity)
