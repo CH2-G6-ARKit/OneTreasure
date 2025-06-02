@@ -2,13 +2,14 @@
     "islands": [
         {
             "id": "dummy_island",
-            "name": "dummy island",
+            "name": "DUMMY ISLAND",
             "descriptionText": "This island serve as a dummy island for developing hifi-prototype purpose",
             "isUnlocked": true,
             "unlocksIslandId": "volcano_island",
             "islandType": "dummySoundQuest",
             "awardsFragmentOrder": 0,
             "islandThemeModelName": "edited_island",
+            "islandIcon": "VolcanoIcon",
             "chestRiddleId": "riddle_multiple_question",
             "islandThemePosition": [0, 0, 0],
             "islandThemeScale": [0.2, 0.2, 0.2],
@@ -29,6 +30,7 @@
             "islandType": "dummySoundQuest",
             "awardsFragmentOrder": 0,
             "islandThemeModelName": "edited_island",
+            "islandIcon": "VolcanoIcon",
             "chestRiddleId": "riddle_multiple_question",
             "islandThemePosition": [0, 0, 0],
             "islandThemeScale": [1, 1, 1],
