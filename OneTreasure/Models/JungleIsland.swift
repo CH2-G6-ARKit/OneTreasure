@@ -54,7 +54,7 @@ class JungleIsland: BaseIsland {
         self.birdScale = birdScale
         self.birdAudioFileName = birdAudioFileName
         
-        super.init(id: id, name: name, descriptionText: descriptionText, isUnlocked: isUnlocked, unlocksIslandId: unlocksIslandId, islandType: .dummySoundQuest, awardsFragmentOrder: awardsFragmentOrder, islandThemeModelName: islandThemeModelName, islandIcon: islandIcon)
+        super.init(id: id, name: name, descriptionText: descriptionText, isUnlocked: isUnlocked, unlocksIslandId: unlocksIslandId, islandType: .jungleSoundQuest, awardsFragmentOrder: awardsFragmentOrder, islandThemeModelName: islandThemeModelName, islandIcon: islandIcon)
     }
     
     private enum DummyCodingKeys: String, CodingKey {

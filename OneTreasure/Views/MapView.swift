@@ -11,21 +11,55 @@ struct MapView: View {
     @ObservedObject var gameVM: GameViewModel
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-//    let islands = ["volcanoIsland", "lockedBottom", "lockedTop", "lockedBottom", "lockedTop"]
     
     var body: some View {
         NavigationView {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 20) {
-                    if let islands = gameVM.gameData?.islands {
-                        ForEach(islands) { island in
-                            islandRow(for: island)
+            GeometryReader{ geometry in
+                ZStack{
+//                    Text("Collected Fragments: \() / 4")
+//                        .zIndex(1).offset(x:280, y:-160)
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        ZStack{
+                            Image("decoration")
+                                .scaleImage(ratio: 0.2, imageName: "mapTrail")
+                                .offset(x:-120)
+                            Image("mapTrail")
+                                .scaleImage(ratio: 0.22, imageName: "mapTrail")
+                                .offset(x:-10)
+                            HStack(spacing: 120) {
+//                                ForEach(islands, id: \.self) {i in
+//                                    NavigationLink(destination: IslandView().environmentObject(gameData)
+//                                        .ignoresSafeArea(edges: .all)
+//                                    ) {
+//                                        Image("\(i)")
+//                                            .scaleImage(ratio: 0.25, imageName: "\(i)")
+//                                    }
+//                                }
+                                if let islands = gameVM.gameData?.islands {
+                                    ForEach(islands) { island in
+                                        islandRow(for: island)
+                                    }
+                                } else {
+                                    Text("Loading map data...")
+                                }
+                            }
                         }
-                    } else {
-                        Text("Loading map data...")
                     }
                 }
+                .frame(width: geometry.size.width, height: geometry.size.height)
+                .background(.accent)
             }
+//            ScrollView {
+//                VStack(alignment: .leading, spacing: 20) {
+//                    if let islands = gameVM.gameData?.islands {
+//                        ForEach(islands) { island in
+//                            islandRow(for: island)
+//                        }
+//                    } else {
+//                        Text("Loading map data...")
+//                    }
+//                }
+//            }
             
             
             
@@ -58,27 +92,15 @@ struct MapView: View {
             }
         }) {
             HStack(spacing: 15) {
-                Image(island.islandType.previewImageName)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 60, height: 60)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                    .overlay(RoundedRectangle(cornerRadius: 8)
-                        .stroke(isUnlocked ? Color.green : Color.gray, lineWidth: 2))
-                if isSolved {
-                    Image(systemName: "checkmark.seal.fill")
-                        .foregroundColor(.green)
-                        .font(.title2)
+                if isUnlocked {
+                    Image(island.islandType.previewImageName)
                 } else if !isUnlocked {
-                    Image(systemName: "lock.fill")
+                    Image("locked")
                         .foregroundColor(.red)
                         .font(.title2)
                 }
             }
             .padding()
-            .background(isUnlocked ? Color.yellow.opacity(0.2) : Color.gray.opacity(0.2))
-            .cornerRadius(12)
-            .opacity(isUnlocked ? 1.0 : 0.7)
         }
         .buttonStyle(PlainButtonStyle())
         .disabled(!isUnlocked && !isSolved)
