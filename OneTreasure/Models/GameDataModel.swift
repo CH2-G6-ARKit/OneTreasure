@@ -51,7 +51,18 @@ struct GameDataModel: Codable {
             switch type {
             case .dummySoundQuest:
                 decodeIslands.append(try DummyIsland(from: actualItemDecoderForSubclass))
+            case .volcanoSoundQuest:
+                decodeIslands.append(try VolcanoIsland(from: actualItemDecoderForSubclass))
+            case .moonSoundQuest:
+                decodeIslands.append(try MoonIsland(from: actualItemDecoderForSubclass))
+            case .jungleSoundQuest:
+                decodeIslands.append(try JungleIsland(from: actualItemDecoderForSubclass))
+            case .iceSoundQuest:
+                decodeIslands.append(try IceIsland(from: actualItemDecoderForSubclass))
+            case .stormSoundQuest:
+                decodeIslands.append(try StormIsland(from: actualItemDecoderForSubclass))
             }
+            
         }
         self.islands = decodeIslands
     }

@@ -20,6 +20,7 @@ struct ContentView: View {
                 switch gameVM.currentScreen {
                 case .home:
                     HomeView(gameVM: gameVM)
+                        .background(.accent)
                 case .map:
                     MapView(gameVM: gameVM)
                 case .islandExperience:

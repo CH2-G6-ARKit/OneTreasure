@@ -1,13 +1,13 @@
 {
     "unlockedIslandIds": [
-        "dummy_island"
+        "volcanoIsland"
     ]
     "collectedFragments": 0,
     "answerChances": 3,
-    "currentIslandId": "dummy_island",
+    "currentIslandId": "volcanoIsland",
     "activeRiddleState": {
         "riddleId": "riddle_multiple_question",
-        "islandId": "dummy_island",
+        "islandId": "volcanoIsland",
         "currentQuestionBankIndex": 0,
         "currentSequenceBankIndex": 0,
         "successfullyCompletedSequence": 0

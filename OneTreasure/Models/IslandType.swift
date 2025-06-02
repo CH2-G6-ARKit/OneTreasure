@@ -7,4 +7,9 @@
 
 enum IslandType: String, Codable, CaseIterable {
     case dummySoundQuest
+    case volcanoSoundQuest
+    case moonSoundQuest
+    case jungleSoundQuest
+    case iceSoundQuest
+    case stormSoundQuest
 }
