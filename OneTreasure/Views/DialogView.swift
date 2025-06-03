@@ -86,5 +86,5 @@ struct DialogView: View {
 #Preview {
     @Previewable  var viewModel = DialogViewModel()
     
-    DialogView(viewModel: viewModel /*isPresented: .constant(true)*/)
+    DialogView(viewModel: viewModel)
 }
