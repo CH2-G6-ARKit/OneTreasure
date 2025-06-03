@@ -116,6 +116,6 @@ class MoonIsland: BaseIsland {
 
     @MainActor
     override func prepareExperienceViewModel(gameViewModel: GameViewModel) -> (any IslandViewModelInterface)? {
-        return DummyIslandViewModel(islandData: self, gameViewModel: gameViewModel)
+        return MoonIslandViewModel(islandData: self, gameViewModel: gameViewModel)
     }
 }

@@ -40,6 +40,8 @@ class GameDataService {
     func loadPlayerProgress() -> PlayerProgressModel? {
         let fileURL = playerProgressFileURL
         guard FileManager.default.fileExists(atPath: fileURL.path) else {
+//            print(playerProgressFileURL)
+//            print(fileURL)
             print("GameDataService: playerProgress.json not found. Will create a new one.")
             return nil
         }

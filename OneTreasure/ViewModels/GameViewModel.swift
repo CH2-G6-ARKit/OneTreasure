@@ -29,7 +29,7 @@ class GameViewModel: ObservableObject {
     @Published var errorMessage: String?
     
     private let dataService = GameDataService()
-    private var initialIslandIdPlaceholder = "dummy_island"
+    private var initialIslandIdPlaceholder = "volcano_island"
     
     init() {
         if let loadedProgress = dataService.loadPlayerProgress() {

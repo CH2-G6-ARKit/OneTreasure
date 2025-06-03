@@ -59,20 +59,20 @@ struct MapView: View {
     
     @ViewBuilder
     private func islandRow(for island: BaseIsland) -> some View {
-        //        let isUnlocked = gameVM.playerProgress.unlockedIslandIds.contains(island.id)
-        //        let isSolved = island.awardsFragmentOrder < gameVM.playerProgress.collectedFragments
+                let isUnlocked = gameVM.playerProgress.unlockedIslandIds.contains(island.id)
+        let unlockedIslands = gameVM.playerProgress.unlockedIslandIds
+//                let isSolved = island.awardsFragmentOrder < gameVM.playerProgress.collectedFragments
         let index = gameVM.gameData?.islands.firstIndex(where: { $0.id == island.id }) ?? 0
         
         Button(action: {
-            if island.isUnlocked {
+            if isUnlocked {
                 gameVM.selectIsland(island)
             } else {
                 print("Island \(island.name) is locked.")
             }
         }) {
             HStack(spacing: 15) {
-//                Text(String(index))
-                Image(island.isUnlocked ? island.id : "locked")
+                Image(isUnlocked ? island.id : "locked")
                     .scaleImage(ratio: 0.6, imageName: island.isUnlocked ? island.id : "locked")
                     .offset(y: index%2 == 1 ? 70 : -70)
                 
@@ -80,7 +80,8 @@ struct MapView: View {
             .padding()
         }
         .buttonStyle(PlainButtonStyle())
-        .disabled(island.isUnlocked == false)
+// if this is used then the print is locked wont' work
+                .disabled(island.isUnlocked == false)
     }
 }
 

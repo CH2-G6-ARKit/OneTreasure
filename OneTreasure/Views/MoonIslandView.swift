@@ -1,5 +1,5 @@
 //
-//  VolcanoIslandView.swift
+//  MoonIslandView.swift
 //  ARIslandGame
 //
 //  Created by stephan on 28/05/25.
@@ -10,13 +10,13 @@ import RealityKit
 import ARKit
 import Combine
 
-struct VolcanoIslandView: View {
-    @ObservedObject var viewModel: VolcanoIslandViewModel
+struct MoonIslandView: View {
+    @ObservedObject var viewModel: MoonIslandViewModel
     @ObservedObject var gameViewModel: GameViewModel
     
     var body: some View {
         ZStack {
-            VolcanoIslandARViewContainer(viewModel: viewModel)
+            MoonIslandARViewContainer(viewModel: viewModel)
                 .edgesIgnoringSafeArea(.all)
             
             VStack {
@@ -105,8 +105,8 @@ struct VolcanoIslandView: View {
         .statusBar(hidden: true)
     }
     
-    struct VolcanoIslandARViewContainer: UIViewRepresentable {
-        @ObservedObject var viewModel: VolcanoIslandViewModel
+    struct MoonIslandARViewContainer: UIViewRepresentable {
+        @ObservedObject var viewModel: MoonIslandViewModel
         
         func makeUIView(context: Context) -> ARView {
             let arView = ARView(frame: .zero, cameraMode: .ar, automaticallyConfigureSession: false)
@@ -141,7 +141,7 @@ struct VolcanoIslandView: View {
         
         @MainActor
         class Coordinator: NSObject, ARSessionDelegate {
-            var viewModel: VolcanoIslandViewModel
+            var viewModel: MoonIslandViewModel
             weak var arView: ARView?
             var cancellables = Set<AnyCancellable>()
             
@@ -150,7 +150,7 @@ struct VolcanoIslandView: View {
             var chestEntity: ModelEntity?
             var birdEntity: ModelEntity?
             
-            init(viewModel: VolcanoIslandViewModel) {
+            init(viewModel: MoonIslandViewModel) {
                 self.viewModel = viewModel
                 super.init()
             }
@@ -278,7 +278,7 @@ struct VolcanoIslandView: View {
                 
                 let location = recognizer.location(in: arView)
                 if let entity = arView.entity(at: location) {
-                    if entity.name == chestEntity?.name || entity.parent?.name == chestEntity?.name {
+                    if entity.name == "chest" || entity.parent?.name == "chest" {
                         viewModel.interactWithChest()
                     }
                 }

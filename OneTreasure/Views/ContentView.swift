@@ -25,10 +25,18 @@ struct ContentView: View {
                     MapView(gameVM: gameVM)
                 case .islandExperience:
                     if let islandVM = gameVM.currentIslandViewModel {
-//                        change to switch case
-                        if let volcanoIslandVM = islandVM as? VolcanoIslandViewModel {
+                        switch islandVM {
+                        case let volcanoIslandVM as VolcanoIslandViewModel:
                             VolcanoIslandView(viewModel: volcanoIslandVM, gameViewModel: gameVM)
-                        } else {
+                        case let moonIslandVM as MoonIslandViewModel:
+                            MoonIslandView(viewModel: moonIslandVM, gameViewModel: gameVM)
+//                        case let jungleIslandVM as JungleIslandViewModel:
+//                            JungleIslandView(viewModel: jungleIslandVM, gameViewModel: gameVM)
+//                        case let iceIslandVM as IceIslandViewModel:
+//                            IceIslandView(viewModel: iceIslandVM, gameViewModel: gameVM)
+                        case let stormIslandVM as StormIslandViewModel:
+                            StormIslandView(viewModel: stormIslandVM, gameViewModel: gameVM)
+                        default:
                             Text("Error: Unknown island type or ViewModel not set.")
                                 .onAppear {
                                     gameVM.currentScreen = .map
