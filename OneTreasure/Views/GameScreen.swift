@@ -7,6 +7,7 @@
 
 enum GameScreen {
     case home
+    case introVideo
     case map
     case islandExperience
 }

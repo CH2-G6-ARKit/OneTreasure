@@ -27,7 +27,7 @@ struct HomeView: View {
                         Image("title")
                             .scaleImage(ratio: 0.24, imageName: "title")
                         Button(action: {
-                            gameVM.navigateToMap()
+                            gameVM.userTappedPlayOnHome()
                         }) {
                             Image("playBtn")
                                 .scaleImage(ratio: 0.24, imageName: "playBtn")

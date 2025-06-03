@@ -21,6 +21,8 @@ struct ContentView: View {
                 case .home:
                     HomeView(gameVM: gameVM)
                         .background(.accent)
+                case .introVideo:
+                    IntroVideoView(gameVM: gameVM)
                 case .map:
                     MapView(gameVM: gameVM)
                 case .islandExperience:

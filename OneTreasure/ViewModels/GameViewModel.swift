@@ -79,6 +79,22 @@ class GameViewModel: ObservableObject {
         saveCurrentProgress()
     }
     
+    func userTappedPlayOnHome() {
+        if !playerProgress.didShowIntroVideo {
+            currentScreen = .introVideo
+        } else {
+            currentScreen = .map
+        }
+    }
+    
+    func introVideoDidFinishOrSkipped() {
+        if !playerProgress.didShowIntroVideo {
+            playerProgress.didShowIntroVideo = true
+            saveCurrentProgress()
+        }
+        currentScreen = .map
+    }
+    
     func navigateToMap() {
         currentScreen = .map
     }

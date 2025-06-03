@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		D4C782A52DEF4DAA00DFEDB2 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = D4C782A42DEF4DA300DFEDB2 /* .gitignore */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		D4A8702B2DED34450045C0CA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +31,7 @@
 		D4A8701A2DED34450045C0CA /* OneTreasure.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneTreasure.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4A8702A2DED34450045C0CA /* OneTreasureTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneTreasureTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4A870342DED34450045C0CA /* OneTreasureUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneTreasureUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4C782A42DEF4DA300DFEDB2 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -104,6 +109,7 @@
 		D4A870112DED34450045C0CA = {
 			isa = PBXGroup;
 			children = (
+				D4C782A42DEF4DA300DFEDB2 /* .gitignore */,
 				D4A8701C2DED34450045C0CA /* OneTreasure */,
 				D4A8702D2DED34450045C0CA /* OneTreasureTests */,
 				D4A870372DED34450045C0CA /* OneTreasureUITests */,
@@ -241,6 +247,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4C782A52DEF4DAA00DFEDB2 /* .gitignore in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,7 +434,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"OneTreasure/Preview Content\"";
-				DEVELOPMENT_TEAM = QZ9RC3AJUB;
+				DEVELOPMENT_TEAM = R5Z572B6J9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/OneTreasure/Info.plist";
@@ -457,7 +464,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"OneTreasure/Preview Content\"";
-				DEVELOPMENT_TEAM = QZ9RC3AJUB;
+				DEVELOPMENT_TEAM = R5Z572B6J9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/OneTreasure/Info.plist";

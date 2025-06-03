@@ -11,6 +11,7 @@ struct PlayerProgressModel: Codable {
     var answerChances: Int
     var currentIslandId: String?
     var activeRiddleState: ActiveRiddleState?
+    var didShowIntroVideo: Bool
     
     static func initial(firstIslandId: String) -> PlayerProgressModel {
         return PlayerProgressModel(
@@ -18,7 +19,8 @@ struct PlayerProgressModel: Codable {
             collectedFragments: 0,
             answerChances: 3,
             currentIslandId: firstIslandId,
-            activeRiddleState: nil
+            activeRiddleState: nil,
+            didShowIntroVideo: false
         )
     }
     
