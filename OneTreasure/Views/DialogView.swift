@@ -74,7 +74,7 @@ struct DialogView: View {
                 
             }
             .background(Color("AccentColor"))
-            .padding()
+//            .padding()
             .border(Color("BorderColorD"), width: 4)
             .cornerRadius(12)
             //                        .offset(y: 200)
