@@ -44,4 +44,13 @@ extension Font {
     static var jaroHeadline: Font { .custom("Jaro", size: 20) }
     static var jaroBody: Font { .custom("Jaro", size: 18) }
     static var jaroCallout: Font { .custom("Jaro", size: 15) }
+    
+    //MARK: - Kanit Font
+    static var kanitRegularLargeTitle: Font {.custom("Kanit-Regular", size: 32) }
+    static var kanitRegularTitle3: Font {.custom("Kanit-Regular", size: 26) }
+    static var kanitRegularTitle2: Font {.custom("Kanit-Regular", size: 20) }
+    static var kanitRegularTitle1: Font {.custom("Kanit-Regular", size: 18) }
+    static var kanitRegularHeadline: Font {.custom("Kanit-Semibold", size: 15) }
+    static var kanitRegularBody: Font {.custom("Kanit-Regular", size: 15) }
+    
 }
