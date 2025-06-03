@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct PopUpView: View {
-    @Binding var showPopUp: Bool
+    var showPopUp: Bool
     let type: Types
     var onAnswered: ((Bool) -> Void)? = nil
     var onRetry: (() -> Void)? = nil
@@ -133,6 +133,6 @@ struct PopUpView: View {
 #Preview {
 //            PopUpView(showPopUp: .constant(true), type: .result(true))
 //        PopUpView(showPopUp: .constant(true), type: .result(false))
-        PopUpView(showPopUp: .constant(true), type: .fragment)
+        PopUpView(showPopUp: true, type: .fragment)
 //    PopUpView(showPopUp: .constant(true), type: .lost)
 }

@@ -73,7 +73,7 @@ struct MapView: View {
         }) {
             HStack(spacing: 15) {
                 Image(isUnlocked ? island.id : "locked")
-                    .scaleImage(ratio: 0.6, imageName: island.isUnlocked ? island.id : "locked")
+                    .scaleImage(ratio: 0.6, imageName: isUnlocked ? island.id : "locked")
                     .offset(y: index%2 == 1 ? 70 : -70)
                 
             }
@@ -81,7 +81,7 @@ struct MapView: View {
         }
         .buttonStyle(PlainButtonStyle())
 // if this is used then the print is locked wont' work
-                .disabled(island.isUnlocked == false)
+                .disabled(isUnlocked == false)
     }
 }
 

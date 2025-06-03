@@ -118,45 +118,56 @@
                     "questions": [
                         {
                             "id": "question_1",
-                            "itemPrompt": "I sail without a sail, glide without a wing, My song is silent, but I'm the ocean's king.",
+                            "itemPrompt": "I am the first wound, carved in red. A whisper born of shattered breath. I build and break with molten thread— What am I, that weeps beneath the earth?",
                             "options": [
-                                {"id": "opt1", "text": "Whale"},
-                                {"id": "opt2", "text": "Kraken"},
-                                {"id": "opt3", "text": "Shark"},
-                                {"id": "opt4", "text": "Dolphin"}
-                            ],
-                            "correctAnswerOptionsId": "opt3"
-                        },
-                        {
-                            "id": "question_2",
-                            "itemPrompt": "I guard the treasure, silent and cold, My chest holds secrets and ancient gold...",
-                            "options": [
-                                {"id": "opt1", "text": "Barrel"},
-                                {"id": "opt2", "text": "Treasure Chest"},
-                                {"id": "opt3", "text": "Sea Trunk"},
-                                {"id": "opt4", "text": "Clam"}
+                                {"id": "opt1", "text": "Blood"},
+                                {"id": "opt2", "text": "Lava"},
+                                {"id": "opt3", "text": "Ash"},
+                                {"id": "opt4", "text": "Coal"}
                             ],
                             "correctAnswerOptionsId": "opt2"
                         },
                         {
-                            "id": "question_3",
-                            "itemPrompt": "I fly without feathers, yet perch not a day, I follow the stars and lead the way.",
+                            "id": "question_2",
+                            "itemPrompt": "I vanish when you stare, Yet shape your fate in silence. I follow you but never lead, And hold the face you never show.",
                             "options": [
-                                {"id": "opt1", "text": "Telescope"},
-                                {"id": "opt2", "text": "Compass Rose"},
-                                {"id": "opt3", "text": "Parrot"},
-                                {"id": "opt4", "text": "Star"}
+                                {"id": "opt1", "text": "Shadow"},
+                                {"id": "opt2", "text": "Ghost"},
+                                {"id": "opt3", "text": "Echo"},
+                                {"id": "opt4", "text": "Reflection"}
+                            ],
+                            "correctAnswerOptionsId": "opt1"
+                        },
+                        {
+                            "id": "question_3",
+                            "itemPrompt": "You forget me when I’m close. I vanish when you chase. Yet I am your only witness— The keeper of what was lost.",
+                            "options": [
+                                {"id": "opt1", "text": "Spirit"},
+                                {"id": "opt2", "text": "Memory"},
+                                {"id": "opt3", "text": "Breath"},
+                                {"id": "opt4", "text": "Silence"}
                             ],
                             "correctAnswerOptionsId": "opt2"
                         },
                         {
                             "id": "question_4",
-                            "itemPrompt": "In silence I slither, in darkness I creep, A thousand arms and secrets I keep.",
+                            "itemPrompt": "I cannot be spoken. I am loudest in grief. I am the absence between stars, And the sound before truth.",
                             "options": [
-                                {"id": "opt1", "text": "Eel"},
-                                {"id": "opt2", "text": "Leviathan"},
-                                {"id": "opt3", "text": "Kraken"},
-                                {"id": "opt4", "text": "Octopus"}
+                                {"id": "opt1", "text": "Silence"},
+                                {"id": "opt2", "text": "Death"},
+                                {"id": "opt3", "text": "Darkness"},
+                                {"id": "opt4", "text": "Snow"}
+                            ],
+                            "correctAnswerOptionsId": "opt1"
+                        },
+                        {
+                            "id": "question_5",
+                            "itemPrompt": "You chase me when you defy. I change names but not design. I write in ruin and erase the map— Yet still you sail toward me.",
+                            "options": [
+                                {"id": "opt1", "text": "Revenge"},
+                                {"id": "opt2", "text": "Chaos"},
+                                {"id": "opt3", "text": "Destiny"},
+                                {"id": "opt4", "text": "The Sea"}
                             ],
                             "correctAnswerOptionsId": "opt3"
                         }

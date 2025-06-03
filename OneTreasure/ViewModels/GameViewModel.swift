@@ -28,6 +28,11 @@ class GameViewModel: ObservableObject {
     @Published var showGameWonAlert: Bool = false
     @Published var errorMessage: String?
     
+    @Published var showPopUpRight: Bool = false
+    @Published var showPopUpWrong: Bool = false
+    @Published var showPopUpFrag: Bool = false
+    @Published var showPopUpLost: Bool = false
+    
     private let dataService = GameDataService()
     private var initialIslandIdPlaceholder = "volcano_island"
     
@@ -111,7 +116,16 @@ class GameViewModel: ObservableObject {
         playerProgress.answerChances -= 1
         print("GameViewModel: Player lost a chance. Answer chances remaining: \(playerProgress.answerChances)")
         
+        showPopUpWrong = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.showPopUpWrong = false
+        }
+        
         if playerProgress.answerChances <= 0 {
+            showPopUpLost = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.showPopUpLost = false
+            }
             resetGameProgressAndSave()
             showGameOverAlert = true
         } else {
@@ -124,11 +138,20 @@ class GameViewModel: ObservableObject {
             print("GameViewModel Error: Island \(onIslandId) not found when trying to solve riddle objective.")
             return
         }
-        print("GameViewModel: Riddle \(riddleId) solved on island \(onIslandId).")
+        showPopUpRight = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            self.showPopUpRight = false
+        }
         
         if island.awardsFragmentOrder == playerProgress.collectedFragments {
             playerProgress.collectedFragments += 1
             print("GameViewModel: Map Fragment \(playerProgress.collectedFragments) collected!")
+            
+            showPopUpFrag = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                self.showPopUpFrag = false
+            }
+            
             
             if playerProgress.collectedFragments >= 4 {
                 showGameWonAlert = true

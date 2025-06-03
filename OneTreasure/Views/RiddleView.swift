@@ -40,9 +40,6 @@ struct RiddleView: View {
                     .stroke(.dark, lineWidth: 4)
             )
             .transition(.scale.combined(with: .opacity))
-//            .onDisappear {
-//                viewModel.userDismissedRiddle()
-//            }
             
             Button {
                 viewModel.userDismissedRiddle()
@@ -67,6 +64,25 @@ struct RiddleView: View {
                 .offset(y: -(500/3.6))
         }
         .offset(y:15)
+        .overlay(
+            VStack{
+                if viewModel.showResultPopup && viewModel.popUpType == .right{
+                    PopUpView(showPopUp: viewModel.showResultPopup, type: .result(true))
+                }
+                else if viewModel.showResultPopup && viewModel.popUpType == .wrong{
+                    PopUpView(showPopUp: viewModel.showResultPopup, type: .result(false))
+                }
+                else if viewModel.showResultPopup && viewModel.popUpType == .lost{
+                    PopUpView(showPopUp: viewModel.showResultPopup, type: .lost)
+                }
+                else if viewModel.showResultPopup && viewModel.popUpType == .frag{
+                    PopUpView(showPopUp: viewModel.showResultPopup, type: .fragment)
+                }
+                else {
+//                    Text("none")
+                }
+            }
+        )
     }
     
     private var multipleOptionsView: some View {

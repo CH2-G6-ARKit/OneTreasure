@@ -51,13 +51,13 @@ struct ContentView: View {
                 }
             }
         }
-        .alert("Game Over!", isPresented: $gameVM.showGameOverAlert) {
-            Button("Restart", role: .destructive) {
-                gameVM.showGameOverAlert = false
-            }
-        } message: {
-            Text("Alas, ye ran out of chances! The treasure remains lost... for now.")
-        }
+//        .alert("Game Over!", isPresented: $gameVM.showGameOverAlert) {
+//            Button("Restart", role: .destructive) {
+//                gameVM.showGameOverAlert = false
+//            }
+//        } message: {
+//            Text("Alas, ye ran out of chances! The treasure remains lost... for now.")
+//        }
         .alert("Victory!", isPresented: $gameVM.showGameWonAlert) {
             Button("New Adventure") {
                 gameVM.navigateToMap()

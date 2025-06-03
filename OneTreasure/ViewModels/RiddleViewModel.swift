@@ -18,6 +18,17 @@ class RiddleViewModel: ObservableObject {
     @Published var currentOptions: [RiddleOption] = []
     @Published var mcBankIsCompleted: Bool = false
     
+    enum PopUpTypes{
+        case right
+        case wrong
+        case lost
+        case frag
+    }
+    
+    @Published var showResultPopup = false
+    @Published var popUpType:PopUpTypes = .right
+    @Published var isAnswerCorrect = false
+    
     // for simon says pattern matching riddle
     @Published var simonSays_numberOfBoxes: Int = 0
     @Published var simonSays_playerInputSequence: [Int] = []
@@ -103,7 +114,8 @@ class RiddleViewModel: ObservableObject {
         switch riddle.content {
         case .multipleOptions:
             if !mcBankIsCompleted {
-                loadMultipleChoiceQuestion(at: mc_currentQuestionIndex)
+                loadSingleRiddleQuestion()
+//                loadMultipleChoiceQuestion(at: mc_currentQuestionIndex)
             } else {
                 onRiddleCompleted(false)
             }
@@ -148,42 +160,102 @@ class RiddleViewModel: ObservableObject {
         }
     }
     
-    private func loadMultipleChoiceQuestion(at index: Int) {
-        guard index < mc_questionBank.count else {
+//    private func loadMultipleChoiceQuestion(at index: Int) {
+//        guard index < mc_questionBank.count else {
+//            mcBankIsCompleted = true
+//            if !mc_questionBank.isEmpty { onRiddleCompleted(false) }
+//            updateActiveRiddleState()
+//            return
+//        }
+//        let questionItem = mc_questionBank[index]
+//        self.currentQuestionPrompt = questionItem.itemPrompt
+//        self.currentOptions = questionItem.options
+//        self.mc_currentQuestionIndex = index
+//        updateActiveRiddleState()
+//    }
+    private var selectedQuestion: MultipleChoiceQuestionItem?
+
+    func loadSingleRiddleQuestion() {
+        guard !mc_questionBank.isEmpty else {
             mcBankIsCompleted = true
-            if !mc_questionBank.isEmpty { onRiddleCompleted(false) }
-            updateActiveRiddleState()
+            onRiddleCompleted(false)
             return
         }
-        let questionItem = mc_questionBank[index]
-        self.currentQuestionPrompt = questionItem.itemPrompt
-        self.currentOptions = questionItem.options
-        self.mc_currentQuestionIndex = index
-        updateActiveRiddleState()
+        
+        selectedQuestion = mc_questionBank.randomElement() // or use first, or pick by ID
+        currentQuestionPrompt = selectedQuestion?.itemPrompt ?? ""
+        currentOptions = selectedQuestion?.options ?? []
     }
     
+//    func mc_selectOption(optionId: String) {
+//        guard mc_currentQuestionIndex < mc_questionBank.count else { return }
+//        let currentQuestion = mc_questionBank[mc_currentQuestionIndex]
+//        
+//        if optionId == currentQuestion.correctAnswerOptionsId {
+//            gameViewModel?.playerSolvedRiddleObjective(onIslandId: gameViewModel?.playerProgress.currentIslandId ?? "", riddleId: riddle.id)
+//            onRiddleCompleted(true)
+//            updateActiveRiddleState()
+//        } else {
+//            gameViewModel?.playerFailedRiddleAttempt()
+//            
+//            if (gameViewModel?.playerProgress.answerChances ?? 0) > 0 {
+//                mc_currentQuestionIndex += 1
+//                
+//                loadMultipleChoiceQuestion(at: mc_currentQuestionIndex)
+//                
+//            } else {
+//                // No lives left, GameViewModel will handle game over.
+//                // The onRiddleCompleted(false) will be implicitly handled by game reset or by IslandVM.
+//            }
+//        }
+//    }
+    
     func mc_selectOption(optionId: String) {
-        guard mc_currentQuestionIndex < mc_questionBank.count else { return }
-        let currentQuestion = mc_questionBank[mc_currentQuestionIndex]
-        
-        if optionId == currentQuestion.correctAnswerOptionsId {
-            gameViewModel?.playerSolvedRiddleObjective(onIslandId: gameViewModel?.playerProgress.currentIslandId ?? "", riddleId: riddle.id)
-            onRiddleCompleted(true)
-            updateActiveRiddleState()
+        guard let question = selectedQuestion else { return }
+
+        if optionId == question.correctAnswerOptionsId {
+            isAnswerCorrect = true
+            showResultPopup = true
+            popUpType = .right
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.popUpType = .right
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.showResultPopup = false
+            }
+
+            gameViewModel?.playerSolvedRiddleObjective(
+                onIslandId: gameViewModel?.playerProgress.currentIslandId ?? "",
+                riddleId: riddle.id
+            )
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.onRiddleCompleted(true)
+            }
+
         } else {
+            isAnswerCorrect = false
+            showResultPopup = true
+            popUpType = .wrong
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.showResultPopup = false
+            }
+
             gameViewModel?.playerFailedRiddleAttempt()
-            
-            if (gameViewModel?.playerProgress.answerChances ?? 0) > 0 {
-                mc_currentQuestionIndex += 1
-                
-                loadMultipleChoiceQuestion(at: mc_currentQuestionIndex)
-                
-            } else {
-                // No lives left, GameViewModel will handle game over.
-                // The onRiddleCompleted(false) will be implicitly handled by game reset or by IslandVM.
+
+            if (gameViewModel?.playerProgress.answerChances ?? 0) <= 0 {
+                popUpType = .lost
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.showResultPopup = false
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.onRiddleCompleted(false)
+                }
             }
         }
+
+        updateActiveRiddleState()
     }
+
     
     func startNextSimonSaysRound() {
         ss_currentDisplayTask?.cancel()
