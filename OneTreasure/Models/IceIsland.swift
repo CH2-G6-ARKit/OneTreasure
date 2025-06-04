@@ -116,6 +116,6 @@ class IceIsland: BaseIsland {
 
     @MainActor
     override func prepareExperienceViewModel(gameViewModel: GameViewModel) -> (any IslandViewModelInterface)? {
-        return DummyIslandViewModel(islandData: self, gameViewModel: gameViewModel)
+        return IceIslandViewModel(islandData: self, gameViewModel: gameViewModel)
     }
 }

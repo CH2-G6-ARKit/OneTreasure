@@ -55,7 +55,7 @@ class IceIslandViewModel: IslandViewModelInterface {
     func startExperience(arView: ARView) {
         self.arViewRef = arView
         
-        if let gvm = gameViewModel, islandData.awardsFragmentOrder < gvm.playerProgress.collectedFragments {
+        if let gvm = gameViewModel, gvm.playerProgress.completedIslandIds.contains(islandData.id) {
             currentExperienceState = .alreadyCompleted
             guidanceFeedback = "You recall the fiery trials of this place. The main treasure has been claimed."
             isChestVisibleAndInteractive = false
@@ -108,7 +108,7 @@ class IceIslandViewModel: IslandViewModelInterface {
     }
     
     private func chestAreaApproached() {
-        if let gvm = gameViewModel, islandData.awardsFragmentOrder < gvm.playerProgress.collectedFragments {
+        if let gvm = gameViewModel, gvm.playerProgress.completedIslandIds.contains(islandData.id) {
             currentExperienceState = .alreadyCompleted
             guidanceFeedback = "This Obsidian Chest... its main secret already yours."
             isChestVisibleAndInteractive = false
@@ -130,7 +130,7 @@ class IceIslandViewModel: IslandViewModelInterface {
             return
         }
         
-        if let gvm = gameViewModel, islandData.awardsFragmentOrder < gvm.playerProgress.collectedFragments {
+        if let gvm = gameViewModel, gvm.playerProgress.completedIslandIds.contains(islandData.id) {
             currentExperienceState = .alreadyCompleted
             guidanceFeedback = "You've claimed this prize before."
             isChestVisibleAndInteractive = false
@@ -168,6 +168,13 @@ class IceIslandViewModel: IslandViewModelInterface {
         if isCorrect {
             currentExperienceState = .completedSuccessfully
             guidanceFeedback = "Victory! The chest opens, revealing a fragment of the lost map!"
+            if let gvm = gameViewModel {
+                if !gvm.playerProgress.completedIslandIds.contains(islandData.id) {
+                    gvm.playerProgress.completedIslandIds.insert(islandData.id)
+                    gvm.playerProgress.collectedFragments += 1
+                }
+            }
+
             isChestVisibleAndInteractive = false
         } else {
             if (gameViewModel?.playerProgress.answerChances ?? 0) > 0 {

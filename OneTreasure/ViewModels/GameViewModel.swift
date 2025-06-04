@@ -191,40 +191,49 @@ class GameViewModel: ObservableObject {
             print("GameViewModel Error: Island \(onIslandId) not found when trying to solve riddle objective.")
             return
         }
-        print("right popup")
+
+        print("Island \(island.id) awardsFragmentOrder: \(island.awardsFragmentOrder)")
+        print("Current collectedFragments: \(playerProgress.collectedFragments)")
+
+        if playerProgress.completedIslandIds.contains(island.id) {
+            print("GameViewModel: Island \(island.id) already completed.")
+            return
+        }
+
         popupType = .right
         showPopup = true
-
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.showPopup = false
-
-            // After hiding "right", show "frag"
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { // short delay before showing next
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 self.popupType = .frag
                 self.showPopup = true
-
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     self.showPopup = false
                 }
             }
         }
-        
-        if island.awardsFragmentOrder == playerProgress.collectedFragments {
-            playerProgress.collectedFragments += 1
-            print("GameViewModel: Map Fragment \(playerProgress.collectedFragments) collected!")
-            
-            if playerProgress.collectedFragments >= 4 {
-                showGameWonAlert = true
-            }
+
+        // Simplify: Increment fragment count unconditionally for new island completion
+        playerProgress.collectedFragments += 1
+        print("GameViewModel: Map Fragment \(playerProgress.collectedFragments) collected!")
+
+        if playerProgress.collectedFragments >= 4 {
+            showGameWonAlert = true
         }
-        
+
+        playerProgress.completedIslandIds.insert(island.id)
+
         if let nextIslandToUnlock = island.unlocksIslandId {
             playerProgress.unlockedIslandIds.insert(nextIslandToUnlock)
+            playerProgress.currentIslandId = nextIslandToUnlock
             print("GameViewModel: Island \(nextIslandToUnlock) unlocked.")
         }
-        
+
         clearActiveRiddleState()
+        saveCurrentProgress()
     }
+
+
     
     func updateActiveRiddleState(_ newState: ActiveRiddleState?) {
         playerProgress.activeRiddleState = newState

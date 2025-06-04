@@ -12,6 +12,7 @@ struct PlayerProgressModel: Codable {
     var currentIslandId: String?
     var activeRiddleState: ActiveRiddleState?
     var didShowIntroVideo: Bool
+    var completedIslandIds: Set<String> = []
     
     static func initial(firstIslandId: String) -> PlayerProgressModel {
         return PlayerProgressModel(
@@ -20,7 +21,8 @@ struct PlayerProgressModel: Codable {
             answerChances: 3,
             currentIslandId: firstIslandId,
             activeRiddleState: nil,
-            didShowIntroVideo: false
+            didShowIntroVideo: false,
+            completedIslandIds: []
         )
     }
     
@@ -30,7 +32,10 @@ struct PlayerProgressModel: Codable {
         self.answerChances = 3
         self.currentIslandId = firstIslandId
         self.activeRiddleState = nil
+        self.didShowIntroVideo = false
+        self.completedIslandIds = []
     }
+    
 }
 
 struct ActiveRiddleState: Codable {

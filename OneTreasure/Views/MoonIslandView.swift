@@ -65,7 +65,7 @@ struct MoonIslandView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                             .shadow(radius: 3)
                     } else if viewModel.currentExperienceState == .alreadyCompleted {
-                        Text("Main treasure already claimed!")
+                        Text("Moon Main treasure already claimed!")
                             .font(.subheadline).fontWeight(.medium)
                             .foregroundColor(.yellow)
                             .padding()
@@ -283,7 +283,7 @@ struct MoonIslandView: View {
                 
                 let location = recognizer.location(in: arView)
                 if let entity = arView.entity(at: location) {
-                    if entity.name == "chest" || entity.parent?.name == "chest" {
+                    if entity.name == chestEntity?.name || entity.parent?.name == chestEntity?.name {
                         viewModel.interactWithChest()
                     }
                 }

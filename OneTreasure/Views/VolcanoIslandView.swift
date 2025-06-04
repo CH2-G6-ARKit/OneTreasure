@@ -65,7 +65,7 @@ struct VolcanoIslandView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                             .shadow(radius: 3)
                     } else if viewModel.currentExperienceState == .alreadyCompleted {
-                        Text("Main treasure already claimed!")
+                        Text("Volcano Main treasure already claimed!")
                             .font(.subheadline).fontWeight(.medium)
                             .foregroundColor(.yellow)
                             .padding()

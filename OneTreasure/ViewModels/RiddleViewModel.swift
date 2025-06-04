@@ -169,7 +169,7 @@ class RiddleViewModel: ObservableObject {
             return
         }
         
-        selectedQuestion = mc_questionBank.randomElement() // or use first, or pick by ID
+        selectedQuestion = mc_questionBank.randomElement()
         currentQuestionPrompt = selectedQuestion?.itemPrompt ?? ""
         currentOptions = selectedQuestion?.options ?? []
     }
