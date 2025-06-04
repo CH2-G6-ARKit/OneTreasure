@@ -34,7 +34,7 @@ struct VolcanoIslandView: View {
                     Spacer()
                     
                     Button {
-                        gameViewModel.exitIsland(arView: ARView())
+                        viewModel.tooglePause()
                     } label: {
                         Image("pause")
                             .resizable()
@@ -88,6 +88,10 @@ struct VolcanoIslandView: View {
             .animation(.easeInOut, value: viewModel.guidanceFeedback)
             .animation(.spring(response: 0.4, dampingFraction: 0.6), value: viewModel.isChestVisibleAndInteractive)
             
+            if viewModel.isPaused {
+                PauseView(onResume: {viewModel.resumeGame()}, onExit: {viewModel.exitToMap()})
+            }
+            
             if let riddleViewModel = viewModel.riddleViewModel {
                 
                 Color.black.opacity(0.75)
@@ -118,6 +122,7 @@ struct VolcanoIslandView: View {
                 config.sceneReconstruction = .mesh
             }
             arView.session.run(config, options: [.resetTracking, .removeExistingAnchors])
+            context.coordinator.arSessionConfig = config
             
             arView.session.delegate = context.coordinator
             context.coordinator.arView = arView
@@ -133,6 +138,11 @@ struct VolcanoIslandView: View {
         }
         
         func updateUIView(_ uiView: ARView, context: Context) {
+            if viewModel.isPaused {
+                context.coordinator.pauseARExperience()
+            } else {
+                context.coordinator.resumeARExperienceIfNeeded()
+            }
         }
         
         func makeCoordinator() -> Coordinator {
@@ -150,9 +160,46 @@ struct VolcanoIslandView: View {
             var chestEntity: ModelEntity?
             var birdEntity: ModelEntity?
             
+            var arSessionConfig: ARConfiguration?
+            private var wasSessionPausedByThisCoordinator: Bool = false
+            
             init(viewModel: VolcanoIslandViewModel) {
                 self.viewModel = viewModel
                 super.init()
+            }
+            
+            func pauseARExperience() {
+                guard let arView = arView, arView.session.configuration != nil else { return }
+                if wasSessionPausedByThisCoordinator { return }
+                
+                print("Coordinator (\(viewModel.islandData.name)): Pausing AR Session and entity specifics.")
+                self.arSessionConfig = arView.session.configuration
+                arView.session.pause()
+                wasSessionPausedByThisCoordinator = true
+                
+                birdEntity?.stopAllAnimations()
+                if let bird = birdEntity { bird.stopAllAudio() }
+            }
+            
+            func resumeARExperienceIfNeeded() {
+                guard let arView = arView, wasSessionPausedByThisCoordinator else { return }
+                
+                if let config = self.arSessionConfig ?? arView.session.configuration {
+                    print("Coordinator (\(viewModel.islandData.name)): Resuming AR Session and entity specifics.")
+                    arView.session.run(config, options: [])
+                    wasSessionPausedByThisCoordinator = false
+                    
+                    if let bird = birdEntity, let animation = bird.availableAnimations.first {
+                        bird.playAnimation(animation.repeat(count: .max))
+                    }
+                    if let bird = birdEntity {
+                        do {
+                            try AudioManagers.attachSpatialAudio(named: viewModel.islandData.birdAudioFileName, to: bird)
+                        } catch { print("Coordinator Error: Failed to resume bird audio: \(error)")}
+                    }
+                } else {
+                    print("Coordinator Warning: No ARConfiguration to resume AR session for \(viewModel.islandData.name).")
+                }
             }
             
             func setupSceneRootAnchor() {
@@ -265,12 +312,14 @@ struct VolcanoIslandView: View {
             }
             
             func session(_ session: ARSession, didUpdate frame: ARFrame) {
+                guard !viewModel.isPaused else { return }
                 let cameraTransform = frame.camera.transform
                 let playerPosition = SIMD3<Float>(cameraTransform.columns.3.x, cameraTransform.columns.3.y, cameraTransform.columns.3.z)
                 viewModel.updatePlayerPosition(playerPosition)
             }
             
             @objc func handleTap(_ recognizer: UITapGestureRecognizer) {
+                guard !viewModel.isPaused else { return }
                 guard let arView = arView else { return }
                 guard viewModel.currentExperienceState == .chestFound && viewModel.isChestVisibleAndInteractive else {
                     return

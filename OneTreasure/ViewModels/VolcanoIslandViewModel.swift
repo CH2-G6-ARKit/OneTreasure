@@ -21,6 +21,8 @@ class VolcanoIslandViewModel: IslandViewModelInterface {
     
     @Published var chestWorldPosition: SIMD3<Float>? = nil
     
+    @Published var isPaused: Bool = false
+    
     var island: BaseIsland { islandData }
     var islandName: String { islandData.name }
     var islandDescription: String { islandData.descriptionText }
@@ -54,6 +56,7 @@ class VolcanoIslandViewModel: IslandViewModelInterface {
     
     func startExperience(arView: ARView) {
         self.arViewRef = arView
+        self.isPaused = false
         
         if let gvm = gameViewModel, islandData.awardsFragmentOrder < gvm.playerProgress.collectedFragments {
             currentExperienceState = .alreadyCompleted
@@ -71,12 +74,14 @@ class VolcanoIslandViewModel: IslandViewModelInterface {
         print("VolcanoIslandViewModel: cleanUpExperience called for \(islandData.name).")
         self.arViewRef = nil
         self.riddleViewModel = nil
+        self.isPaused = false
         
         cancellables.forEach{ $0.cancel() }
         cancellables.removeAll()
     }
     
     func updatePlayerPosition(_ playerPosition: SIMD3<Float>) {
+        guard !isPaused else { return }
         guard currentExperienceState == .searchingForChest, let targetPos = chestWorldPosition else { return }
         
         let distanceToChest = distance(playerPosition, targetPos)
@@ -90,6 +95,27 @@ class VolcanoIslandViewModel: IslandViewModelInterface {
         } else {
             guidanceFeedback = "Follow the haunting call of the Lava Falcon..."
         }
+    }
+    
+    func tooglePause() {
+        isPaused.toggle()
+        if isPaused {
+            print("VolcanoIslandViewModel: Game Paused.")
+        } else {
+            print("VolcanoIslandViewModel: Game Resumed.")
+        }
+    }
+    
+    func resumeGame() {
+        if isPaused {
+            isPaused = false
+            print("VolcanoIslandViewModel: Game Resumed from Pause Menu.")
+        }
+    }
+    
+    func exitToMap() {
+        isPaused = false
+        gameViewModel?.exitIsland(arView: arViewRef ?? ARView())
     }
     
     func setChestWorldTarget(position: SIMD3<Float>) {
@@ -111,6 +137,7 @@ class VolcanoIslandViewModel: IslandViewModelInterface {
     }
     
     func interactWithChest() {
+        guard !isPaused else { return }
         guard currentExperienceState == .chestFound && isChestVisibleAndInteractive else {
             if currentExperienceState == .alreadyCompleted {
                 guidanceFeedback = "The chest is empty of its primeval magic."

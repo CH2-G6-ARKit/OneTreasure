@@ -12,7 +12,7 @@ import AVFoundation
 import Combine
 
 @MainActor
-class DummyIslandViewModel: IslandViewModelInterface {
+class DummyIslandViewModel: IslandViewModelInterface {    
     @Published var islandData: DummyIsland
     @Published var currentExperienceState: DummyIslandExperienceState = .initializing
     @Published var guidanceFeedback: String = "Listen carefully for the ancient rumble..."
@@ -20,6 +20,8 @@ class DummyIslandViewModel: IslandViewModelInterface {
     @Published var riddleViewModel: RiddleViewModel? = nil
     
     @Published var chestWorldPosition: SIMD3<Float>? = nil
+    
+    @Published var isPaused: Bool = false
     
     var island: BaseIsland { islandData }
     var islandName: String { islandData.name }
@@ -90,6 +92,27 @@ class DummyIslandViewModel: IslandViewModelInterface {
         } else {
             guidanceFeedback = "Follow the haunting call of the Lava Falcon..."
         }
+    }
+    
+    func tooglePause() {
+        isPaused.toggle()
+        if isPaused {
+            print("DummyIslandViewModel: Game Paused.")
+        } else {
+            print("DummyIslandViewModel: Game Resumed.")
+        }
+    }
+    
+    func resumeGame() {
+        if isPaused {
+            isPaused = false
+            print("VolcanoIslandViewModel: Game Resumed from Pause Menu.")
+        }
+    }
+    
+    func exitToMap() {
+        isPaused = false
+        gameViewModel?.exitIsland(arView: arViewRef ?? ARView())
     }
     
     func setChestWorldTarget(position: SIMD3<Float>) {
