@@ -13,11 +13,41 @@ import Combine
 struct VolcanoIslandView: View {
     @ObservedObject var viewModel: VolcanoIslandViewModel
     @ObservedObject var gameViewModel: GameViewModel
+    @State private var showDialog = true
+    @ObservedObject var dialogViewModel: DialogViewModel
+    
+    
     
     var body: some View {
         ZStack {
             VolcanoIslandARViewContainer(viewModel: viewModel)
                 .edgesIgnoringSafeArea(.all)
+            
+            //                .sheet(isPresented: $showDialog) {
+            //                                        DialogView(viewModel: dialogViewModel)
+            //                                    }
+            
+            //use overlay
+            if showDialog {
+                //             Semi-transparent background
+                Color.black.opacity(0.5)
+                    .edgesIgnoringSafeArea(.all)
+                    .onTapGesture {
+                        withAnimation {
+                            showDialog = false
+                        }
+                    }
+                
+                // Dialog view
+                DialogView(viewModel: dialogViewModel)
+                    .padding()
+                    .background(Color.white)
+                    .cornerRadius(12)
+                    .shadow(radius: 10)
+                    .transition(.scale)
+                    .zIndex(1)
+            }
+            
             
             VStack {
                 HStack {
@@ -108,6 +138,7 @@ struct VolcanoIslandView: View {
     struct VolcanoIslandARViewContainer: UIViewRepresentable {
         @ObservedObject var viewModel: VolcanoIslandViewModel
         
+        
         func makeUIView(context: Context) -> ARView {
             let arView = ARView(frame: .zero, cameraMode: .ar, automaticallyConfigureSession: false)
             
@@ -184,8 +215,8 @@ struct VolcanoIslandView: View {
                         guard let self = self else { return }
                         
                         loadedIslandEntity.name = islandData.islandThemeModelName
-//                        loadedIslandEntity.position = islandData.islandThemePosition
-//                        loadedIslandEntity.scale = islandData.islandThemeScale
+                        //                        loadedIslandEntity.position = islandData.islandThemePosition
+                        //                        loadedIslandEntity.scale = islandData.islandThemeScale
                         
                         parentAnchor.addChild(loadedIslandEntity)
                         self.islandEntity = loadedIslandEntity
@@ -210,8 +241,8 @@ struct VolcanoIslandView: View {
                         guard let self = self else { return }
                         
                         loadedChestEntity.name = islandData.chestModelFileName
-//                        loadedChestEntity.position = islandData.chestPosition
-//                        loadedChestEntity.scale = islandData.chestScale
+                        //                        loadedChestEntity.position = islandData.chestPosition
+                        //                        loadedChestEntity.scale = islandData.chestScale
                         loadedChestEntity.generateCollisionShapes(recursive: true)
                         
                         parentEntity.addChild(loadedChestEntity)

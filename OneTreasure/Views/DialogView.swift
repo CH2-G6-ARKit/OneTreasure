@@ -60,7 +60,7 @@ struct DialogView: View {
                         }.buttonStyle(.plain)
                     }else if viewModel.isLastPage() {
                         Button(){
-                            print("Button tapped")
+                            print("Continue Button tapped")
                             dismiss()
                         }label:{
                             Image("ContinueD")
