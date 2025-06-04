@@ -27,8 +27,8 @@ struct ContentView: View {
                     MapView(gameVM: gameVM)
                         .overlay(
                             VStack{
-                                if gameVM.showPopup && gameVM.popupType == .frag{
-                                    PopUpView(showPopUp: $gameVM.showPopup, type: .fragment(gameVM.playerProgress.collectedFragments))
+                                if gameVM.showPopupMap && gameVM.popupType == .frag{
+                                    PopUpView(showPopUp: $gameVM.showPopupMap, type: .fragment(gameVM.playerProgress.collectedFragments, true))
                                 }
                             }
                         )
@@ -39,10 +39,10 @@ struct ContentView: View {
                             VolcanoIslandView(viewModel: volcanoIslandVM, gameViewModel: gameVM)
                         case let moonIslandVM as MoonIslandViewModel:
                             MoonIslandView(viewModel: moonIslandVM, gameViewModel: gameVM)
-//                        case let jungleIslandVM as JungleIslandViewModel:
-//                            JungleIslandView(viewModel: jungleIslandVM, gameViewModel: gameVM)
-//                        case let iceIslandVM as IceIslandViewModel:
-//                            IceIslandView(viewModel: iceIslandVM, gameViewModel: gameVM)
+                        case let jungleIslandVM as JungleIslandViewModel:
+                            JungleIslandView(viewModel: jungleIslandVM, gameViewModel: gameVM)
+                        case let iceIslandVM as IceIslandViewModel:
+                            IceIslandView(viewModel: iceIslandVM, gameViewModel: gameVM)
                         case let stormIslandVM as StormIslandViewModel:
                             StormIslandView(viewModel: stormIslandVM, gameViewModel: gameVM)
                         default:
@@ -72,7 +72,7 @@ struct ContentView: View {
                     PopUpView(showPopUp: $gameVM.showPopup, type: .lost)
                 }
                 if gameVM.showPopup && gameVM.popupType == .frag{
-                    PopUpView(showPopUp: $gameVM.showPopup, type: .fragment(gameVM.playerProgress.collectedFragments))
+                    PopUpView(showPopUp: $gameVM.showPopup, type: .fragment(gameVM.playerProgress.collectedFragments, false))
                 }
                 
             }
@@ -92,20 +92,6 @@ struct ContentView: View {
         }, message: {
             Text(gameVM.errorMessage ?? "An unknown error occured.")
         })
-    }
-}
-
-struct LoadingView: View {
-    var body: some View {
-        VStack {
-            ProgressView()
-                .progressViewStyle(CircularProgressViewStyle(tint: .orange))
-                .scaleEffect(2.0, anchor: .center)
-            Text("Loading Ancient Maps...")
-                .font(.title3)
-                .padding(.top)
-                .foregroundColor(.gray)
-        }
     }
 }
 

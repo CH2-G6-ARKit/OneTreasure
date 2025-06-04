@@ -95,7 +95,9 @@ struct DummyIslandView: View {
                     .transition(.opacity)
                     .zIndex(1)
                 
-                RiddleView(viewModel: riddleViewModel)
+                RiddleView(viewModel: riddleViewModel,  onClose: {
+                    viewModel.dismissRiddle()
+                })
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .transition(.move(edge: .bottom).combined(with: .opacity))
                     .zIndex(2)

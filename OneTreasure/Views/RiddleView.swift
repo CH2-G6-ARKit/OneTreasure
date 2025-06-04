@@ -9,7 +9,9 @@ import SwiftUI
 
 struct RiddleView: View {
     @ObservedObject var viewModel: RiddleViewModel
-    @Environment(\.dismiss) var dismiss
+    var onClose: () -> Void
+//    @Environment(\.dismiss) var dismiss
+    
     
     var body: some View {
         ZStack {
@@ -42,7 +44,7 @@ struct RiddleView: View {
             .transition(.scale.combined(with: .opacity))
             
             Button {
-                viewModel.userDismissedRiddle()
+                onClose()
             } label: {
                 Image("close")
                     .foregroundColor(.dark)
@@ -182,48 +184,50 @@ struct RiddleView: View {
     }
 }
 
-struct RiddleView_Previews: PreviewProvider {
-    static var previewGameVM: GameViewModel = {
-        let vm = GameViewModel()
-        return vm
-    }()
-    
-    static let preview_mcRiddle: RiddleModel = {
-        let q1_opt1 = RiddleOption(id: "q1o1", text: "A Parrot")
-        let q1_opt2 = RiddleOption(id: "q1o2", text: "A Treasure Chest (Correct)")
-        let q1_opt3 = RiddleOption(id: "q1o3", text: "A Barrel")
-        let q1_opt4 = RiddleOption(id: "q1o4", text: "A Star")
-        let q1 = MultipleChoiceQuestionItem(id: "q1", itemPrompt: "What does 'X' mark on a pirate map?", options: [q1_opt1, q1_opt2, q1_opt3, q1_opt4], correctAnswerOptionsId: "q1o2")
-        
-        let q2_opt1 = RiddleOption(id: "q2o1", text: "Walk the Plank")
-        let q2_opt2 = RiddleOption(id: "q2o2", text: "Keelhauling")
-        let q2_opt3 = RiddleOption(id: "q2o3", text: "Scrub the Deck (Correct, less severe)")
-        let q2_opt4 = RiddleOption(id: "q2o4", text: "Jump to Ocean")
-        let q2 = MultipleChoiceQuestionItem(id: "q2", itemPrompt: "Which is a common punishment for minor offenses on a pirate ship?", options: [q2_opt1, q2_opt2, q2_opt3, q2_opt4], correctAnswerOptionsId: "q2o3")
-        
-        let content = RiddleContent.multipleOptions(questions: [q1, q2])
-        return RiddleModel(id: "preview_mc_riddle", questionText: "Pirate Code Trivia!", content: content)
-    }()
-    
-    static let preview_ssRiddle: RiddleModel = {
-        let content = RiddleContent.simonSaysPattern(
-            sequence: [[0,1,2], [3,4,5], [6,7,8,0]],
-            numberOfBoxes: 9,
-            sequencesToWin: 2,
-            presentationDurationPerElement: 0.6
-        )
-        return RiddleModel(id: "preview_ss_riddle", questionText: "Ancient Glyphs Challenge", content: content)
-    }()
-    
-    static var previews: some View {
-        RiddleView(viewModel: RiddleViewModel(chances: previewGameVM.playerProgress.answerChances, riddle: preview_mcRiddle, gameViewModel: previewGameVM, onRiddleCompleted: { success in print("Preview MC Riddle completed: \(success)") }))
-            .previewDisplayName("Multiple Options Riddle")
-            .padding()
-            .background(Color(UIColor.secondarySystemBackground))
-        
-        RiddleView(viewModel: RiddleViewModel(chances: previewGameVM.playerProgress.answerChances, riddle: preview_ssRiddle, gameViewModel: previewGameVM, onRiddleCompleted: { success in print("Preview SS Riddle completed: \(success)")}))
-            .previewDisplayName("Simon Says Pattern Riddle")
-            .padding()
-            .background(Color(UIColor.secondarySystemBackground))
-    }
-}
+//struct RiddleView_Previews: PreviewProvider {
+//    static var previewGameVM: GameViewModel = {
+//        let vm = GameViewModel()
+//        return vm
+//    }()
+//    
+//    static let preview_mcRiddle: RiddleModel = {
+//        let q1_opt1 = RiddleOption(id: "q1o1", text: "A Parrot")
+//        let q1_opt2 = RiddleOption(id: "q1o2", text: "A Treasure Chest (Correct)")
+//        let q1_opt3 = RiddleOption(id: "q1o3", text: "A Barrel")
+//        let q1_opt4 = RiddleOption(id: "q1o4", text: "A Star")
+//        let q1 = MultipleChoiceQuestionItem(id: "q1", itemPrompt: "What does 'X' mark on a pirate map?", options: [q1_opt1, q1_opt2, q1_opt3, q1_opt4], correctAnswerOptionsId: "q1o2")
+//        
+//        let q2_opt1 = RiddleOption(id: "q2o1", text: "Walk the Plank")
+//        let q2_opt2 = RiddleOption(id: "q2o2", text: "Keelhauling")
+//        let q2_opt3 = RiddleOption(id: "q2o3", text: "Scrub the Deck (Correct, less severe)")
+//        let q2_opt4 = RiddleOption(id: "q2o4", text: "Jump to Ocean")
+//        let q2 = MultipleChoiceQuestionItem(id: "q2", itemPrompt: "Which is a common punishment for minor offenses on a pirate ship?", options: [q2_opt1, q2_opt2, q2_opt3, q2_opt4], correctAnswerOptionsId: "q2o3")
+//        
+//        let content = RiddleContent.multipleOptions(questions: [q1, q2])
+//        return RiddleModel(id: "preview_mc_riddle", questionText: "Pirate Code Trivia!", content: content)
+//    }()
+//    
+//    static let preview_ssRiddle: RiddleModel = {
+//        let content = RiddleContent.simonSaysPattern(
+//            sequence: [[0,1,2], [3,4,5], [6,7,8,0]],
+//            numberOfBoxes: 9,
+//            sequencesToWin: 2,
+//            presentationDurationPerElement: 0.6
+//        )
+//        return RiddleModel(id: "preview_ss_riddle", questionText: "Ancient Glyphs Challenge", content: content)
+//    }()
+//    
+//    static var previews: some View {
+//        RiddleView(viewModel: RiddleViewModel(chances: previewGameVM.playerProgress.answerChances, riddle: preview_mcRiddle, gameViewModel: previewGameVM, onRiddleCompleted: { success in print("Preview MC Riddle completed: \(success)") }), onClose: {
+//            previewGameVM.currentIslandViewModel.dismissRiddle()
+//        })
+//            .previewDisplayName("Multiple Options Riddle")
+//            .padding()
+//            .background(Color(UIColor.secondarySystemBackground))
+//        
+//        RiddleView(viewModel: RiddleViewModel(chances: previewGameVM.playerProgress.answerChances, riddle: preview_ssRiddle, gameViewModel: previewGameVM, onRiddleCompleted: { success in print("Preview SS Riddle completed: \(success)")}))
+//            .previewDisplayName("Simon Says Pattern Riddle")
+//            .padding()
+//            .background(Color(UIColor.secondarySystemBackground))
+//    }
+//}

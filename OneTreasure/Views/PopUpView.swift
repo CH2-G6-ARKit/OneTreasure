@@ -7,8 +7,6 @@
 import SwiftUI
 
 struct PopUpView: View {
-//    @StateObject private var gameVM = GameViewModel()
-    
     @Binding var showPopUp: Bool
     let type: Types
     var onAnswered: ((Bool) -> Void)? = nil
@@ -16,7 +14,7 @@ struct PopUpView: View {
     
     enum Types {
         case right
-        case fragment(Int)
+        case fragment(Int, Bool)
         case lost
         case wrong(Int)
     }
@@ -24,7 +22,7 @@ struct PopUpView: View {
     var body: some View {
         if showPopUp {
             ZStack {
-                                Color.black.opacity(0.3).ignoresSafeArea()
+                Color.black.opacity(0.3).ignoresSafeArea()
                 
                 switch type {
                 case .right:
@@ -50,17 +48,20 @@ struct PopUpView: View {
                     .offset(y:-30)
                     
                     
-                case .fragment(let count):
+                case .fragment(let count, let showBtn):
                     ZStack {
                         ShadowedRoundedBackground()
                         VStack{
                             FragmentView(count: count)
-                            Button {
-                                print("close pop up")
-                                showPopUp = false
-                            } label: {
-                                ButtonView(btnType: .text("OK"))
-                                }
+                            if showBtn
+                            {
+                                Button {
+//                                    print("close pop up")
+                                    showPopUp = false
+                                } label: {
+                                    ButtonView(btnType: .text("OK"))
+                                    }
+                            }
                         }
                         .frame(width: 400, height: 250)
                         .background(.accent)
@@ -142,6 +143,7 @@ struct PopUpView: View {
 #Preview {
     //            PopUpView(showPopUp: true, type: .right)
     //        PopUpView(showPopUp: true, type: .wrong(2))
-//    PopUpView(showPopUp: true, type: .fragment(2))
+    PopUpView(showPopUp: .constant(true), type: .fragment(2, true))
+//    PopUpView(showPopUp: .constant(true), type: .fragment(2, false))
     //    PopUpView(showPopUp: true, type: .lost)
 }

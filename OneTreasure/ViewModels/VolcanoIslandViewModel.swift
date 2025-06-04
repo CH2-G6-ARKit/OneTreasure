@@ -58,7 +58,7 @@ class VolcanoIslandViewModel: IslandViewModelInterface {
         self.arViewRef = arView
         self.isPaused = false
         
-        if let gvm = gameViewModel, islandData.awardsFragmentOrder < gvm.playerProgress.collectedFragments {
+        if let gvm = gameViewModel, gvm.playerProgress.completedIslandIds.contains(islandData.id) {
             currentExperienceState = .alreadyCompleted
             guidanceFeedback = "You recall the fiery trials of this place. The main treasure has been claimed."
             isChestVisibleAndInteractive = false
@@ -123,8 +123,18 @@ class VolcanoIslandViewModel: IslandViewModelInterface {
         print("VolcanoIslandViewModel: Chest world target position set to \(position)")
     }
     
+    func dismissRiddle() {
+        riddleViewModel = nil
+        
+        if currentExperienceState == .presentingRiddle {
+            currentExperienceState = .chestFound
+            isChestVisibleAndInteractive = true
+            guidanceFeedback = "The riddle remains. You may return to it when ready."
+        }
+    }
+    
     private func chestAreaApproached() {
-        if let gvm = gameViewModel, islandData.awardsFragmentOrder < gvm.playerProgress.collectedFragments {
+        if let gvm = gameViewModel, gvm.playerProgress.completedIslandIds.contains(islandData.id) {
             currentExperienceState = .alreadyCompleted
             guidanceFeedback = "This Obsidian Chest... its main secret already yours."
             isChestVisibleAndInteractive = false
@@ -147,7 +157,7 @@ class VolcanoIslandViewModel: IslandViewModelInterface {
             return
         }
         
-        if let gvm = gameViewModel, islandData.awardsFragmentOrder < gvm.playerProgress.collectedFragments {
+        if let gvm = gameViewModel, gvm.playerProgress.completedIslandIds.contains(islandData.id) {
             currentExperienceState = .alreadyCompleted
             guidanceFeedback = "You've claimed this prize before."
             isChestVisibleAndInteractive = false
@@ -185,6 +195,12 @@ class VolcanoIslandViewModel: IslandViewModelInterface {
         if isCorrect {
             currentExperienceState = .completedSuccessfully
             guidanceFeedback = "Victory! The chest opens, revealing a fragment of the lost map!"
+            if let gvm = gameViewModel {
+                if !gvm.playerProgress.completedIslandIds.contains(islandData.id) {
+                    gvm.playerProgress.completedIslandIds.insert(islandData.id)
+                    gvm.playerProgress.collectedFragments += 1
+                }
+            }
             isChestVisibleAndInteractive = false
         } else {
             if (gameViewModel?.playerProgress.answerChances ?? 0) > 0 {

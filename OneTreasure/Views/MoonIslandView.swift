@@ -65,7 +65,7 @@ struct MoonIslandView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                             .shadow(radius: 3)
                     } else if viewModel.currentExperienceState == .alreadyCompleted {
-                        Text("Main treasure already claimed!")
+                        Text("Moon Main treasure already claimed!")
                             .font(.subheadline).fontWeight(.medium)
                             .foregroundColor(.yellow)
                             .padding()
@@ -99,7 +99,9 @@ struct MoonIslandView: View {
                     .transition(.opacity)
                     .zIndex(1)
                 
-                RiddleView(viewModel: riddleViewModel)
+                RiddleView(viewModel: riddleViewModel,  onClose: {
+                    viewModel.dismissRiddle()
+                })
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .transition(.move(edge: .bottom).combined(with: .opacity))
                     .zIndex(2)
@@ -231,6 +233,7 @@ struct MoonIslandView: View {
                         guard let self = self else { return }
                         
                         loadedIslandEntity.name = islandData.islandThemeModelName
+                        loadedIslandEntity.scale = islandData.islandThemeScale
 //                        loadedIslandEntity.position = islandData.islandThemePosition
 //                        loadedIslandEntity.scale = islandData.islandThemeScale
                         
@@ -257,6 +260,8 @@ struct MoonIslandView: View {
                         guard let self = self else { return }
                         
                         loadedChestEntity.name = islandData.chestModelFileName
+                        loadedChestEntity.scale = islandData.chestScale
+                        loadedChestEntity.transform.rotation = simd_quatf(angle: 0, axis: [0, 1, 0])
 //                        loadedChestEntity.position = islandData.chestPosition
 //                        loadedChestEntity.scale = islandData.chestScale
                         loadedChestEntity.generateCollisionShapes(recursive: true)
@@ -327,7 +332,7 @@ struct MoonIslandView: View {
                 
                 let location = recognizer.location(in: arView)
                 if let entity = arView.entity(at: location) {
-                    if entity.name == "chest" || entity.parent?.name == "chest" {
+                    if entity.name == chestEntity?.name || entity.parent?.name == chestEntity?.name {
                         viewModel.interactWithChest()
                     }
                 }
