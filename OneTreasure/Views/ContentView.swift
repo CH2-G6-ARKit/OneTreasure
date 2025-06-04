@@ -25,6 +25,13 @@ struct ContentView: View {
                     IntroVideoView(gameVM: gameVM)
                 case .map:
                     MapView(gameVM: gameVM)
+                        .overlay(
+                            VStack{
+                                if gameVM.showPopup && gameVM.popupType == .frag{
+                                    PopUpView(showPopUp: $gameVM.showPopup, type: .fragment(gameVM.playerProgress.collectedFragments))
+                                }
+                            }
+                        )
                 case .islandExperience:
                     if let islandVM = gameVM.currentIslandViewModel {
                         switch islandVM {
@@ -56,26 +63,20 @@ struct ContentView: View {
         .overlay(
             VStack{
                 if gameVM.showPopup && gameVM.popupType == .right{
-                    PopUpView(showPopUp: gameVM.showPopup, type: .right)
+                    PopUpView(showPopUp: $gameVM.showPopup, type: .right)
                 }
                 if gameVM.showPopup && gameVM.popupType == .wrong{
-                    PopUpView(showPopUp: gameVM.showPopup, type: .wrong(gameVM.playerProgress.answerChances))
+                    PopUpView(showPopUp: $gameVM.showPopup, type: .wrong(gameVM.playerProgress.answerChances))
                 }
                 if gameVM.showPopup && gameVM.popupType == .lost{
-                    PopUpView(showPopUp: gameVM.showPopup, type: .lost)
+                    PopUpView(showPopUp: $gameVM.showPopup, type: .lost)
                 }
                 if gameVM.showPopup && gameVM.popupType == .frag{
-                    PopUpView(showPopUp: gameVM.showPopup, type: .fragment(gameVM.playerProgress.collectedFragments))
+                    PopUpView(showPopUp: $gameVM.showPopup, type: .fragment(gameVM.playerProgress.collectedFragments))
                 }
+                
             }
         )
-//        .alert("Game Over!", isPresented: $gameVM.showGameOverAlert) {
-//            Button("Restart", role: .destructive) {
-//                gameVM.showGameOverAlert = false
-//            }
-//        } message: {
-//            Text("Alas, ye ran out of chances! The treasure remains lost... for now.")
-//        }
         .alert("Victory!", isPresented: $gameVM.showGameWonAlert) {
             Button("New Adventure") {
                 gameVM.navigateToMap()

@@ -109,6 +109,20 @@ class GameViewModel: ObservableObject {
         currentIslandViewModel = nil
     }
     
+    func showPopUpFrag() {
+        popupType = .frag
+        showPopup = true
+        print("frag clicked")
+    }
+    
+    func closePopUpFrag() {
+        showPopup = false
+        popupType = .frag
+        print(showPopup)
+        print(popupType)
+        
+    }
+    
     func selectIsland(_ island: BaseIsland) {
         guard let gameData = gameData, playerProgress.unlockedIslandIds.contains(island.id) else {
             print("GameViewModel Error: Attempted to select a locked or non-existent island.")

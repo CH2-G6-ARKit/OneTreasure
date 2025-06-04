@@ -14,42 +14,51 @@ struct MapView: View {
     
     var body: some View {
         NavigationView {
-                ZStack{
-                    Text("Collected Fragments: \(gameVM.playerProgress.collectedFragments) / 4")
-                                            .zIndex(1).offset(x:280, y:-160)
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        ZStack{
-                            Image("decoration")
-                                .scaleImage(ratio: 0.2, imageName: "mapTrail")
-                                .offset(x:-120)
-                            Image("mapTrail")
-                                .scaleImage(ratio: 0.22, imageName: "mapTrail")
-                                .offset(x:-10)
-                            HStack(spacing: 120) {
-                                if let islands = gameVM.gameData?.islands {
-                                    ForEach(islands) { island in
-                                        islandRow(for: island)
-                                    }
-                                } else {
-                                    Text("Loading map data...")
+            ZStack{
+                ScrollView(.horizontal, showsIndicators: false) {
+                    ZStack{
+                        Image("decoration")
+                            .scaleImage(ratio: 0.2, imageName: "mapTrail")
+                            .offset(x:-120)
+                        Image("mapTrail")
+                            .scaleImage(ratio: 0.22, imageName: "mapTrail")
+                            .offset(x:-10)
+                        HStack(spacing: 120) {
+                            if let islands = gameVM.gameData?.islands {
+                                ForEach(islands) { island in
+                                    islandRow(for: island)
                                 }
+                            } else {
+                                Text("Loading map data...")
                             }
                         }
-                        .frame(maxHeight: 500)
                     }
-                    .background(.accent)
+                    .frame(maxHeight: 500)
+                }
+                .background(.accent)
             }
             .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing){
+                    Button {
+                        gameVM.showPopUpFrag()
+                    } label: {
+                        Image("check_frag")
+                            .scaleImage(ratio: 0.6, imageName: "check_frag")
+//                            .padding(.top, 30)
+                        }
+                    .padding(.top, 30)
+                }
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
                         gameVM.navigateToHome()
                     } label: {
-                        ButtonView(btnType: .icon("leftArrow"))
-                        Text("SELECT LEVEL")
-                            .outlinedText(strokeColor: .dark, textColor: .accent, lineWidth: 3)
-                            .font(.londrinaTitle)
-                    }
-                    .padding(.top, 20)
+                            Image("backButton")
+                                .scaleImage(ratio: 0.6, imageName: "backButton")
+                            Text("SELECT LEVEL")
+                                .outlinedText(strokeColor: .dark, textColor: .accent, lineWidth: 3)
+                                .font(.londrinaTitle)
+                        }
+                    .padding(.top, 30)
                 }
             }
         }
@@ -59,8 +68,8 @@ struct MapView: View {
     
     @ViewBuilder
     private func islandRow(for island: BaseIsland) -> some View {
-                let isUnlocked = gameVM.playerProgress.unlockedIslandIds.contains(island.id)
-//                let isSolved = island.awardsFragmentOrder < gameVM.playerProgress.collectedFragments
+        let isUnlocked = gameVM.playerProgress.unlockedIslandIds.contains(island.id)
+        //                let isSolved = island.awardsFragmentOrder < gameVM.playerProgress.collectedFragments
         let index = gameVM.gameData?.islands.firstIndex(where: { $0.id == island.id }) ?? 0
         
         Button(action: {
@@ -79,8 +88,8 @@ struct MapView: View {
             .padding()
         }
         .buttonStyle(PlainButtonStyle())
-// if this is used then the print is locked wont' work
-                .disabled(isUnlocked == false)
+        // if this is used then the print is locked wont' work
+        .disabled(isUnlocked == false)
     }
 }
 

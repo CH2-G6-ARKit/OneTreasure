@@ -9,6 +9,8 @@ import SwiftUI
 extension Font {
     
     // MARK: - Londrina Solid Regular
+    static var londrinaBigX: Font { .custom("LondrinaSolid-Regular", size: 68) }
+    static var londrinaBig: Font { .custom("LondrinaSolid-Regular", size: 64) }
     static var londrinaLargeTitle: Font { .custom("LondrinaSolid-Regular", size: 32) }
     static var londrinaTitle: Font { .custom("LondrinaSolid-Regular", size: 26) }
     static var londrinaHeadline: Font { .custom("LondrinaSolid-Regular", size: 20) }

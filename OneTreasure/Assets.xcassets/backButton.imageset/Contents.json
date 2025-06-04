@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "MapLevel.png",
+      "filename" : "Button (6).png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "Button (6) 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "Button (6) 2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Island Position-3.png",
+      "filename" : "Button (5).png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "Button (5) 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "Button (5) 2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
