@@ -13,7 +13,7 @@ struct RiddleView: View {
     
     var body: some View {
         ZStack {
-            ShadowedRoundedBackground(width: 450, height: 250)
+            ShadowedRoundedBackground(color: .dark3, strokeColor: .dark3, width: 450, height: 250)
             
             VStack {
                 VStack(spacing: 16) {
@@ -37,7 +37,7 @@ struct RiddleView: View {
             .cornerRadius(10)
             .overlay(
                 RoundedRectangle(cornerRadius: 10)
-                    .stroke(.dark, lineWidth: 4)
+                    .stroke(.dark3, lineWidth: 4)
             )
             .transition(.scale.combined(with: .opacity))
             
@@ -52,37 +52,18 @@ struct RiddleView: View {
             .buttonStyle(.plain)
             
             Text("SOLVE THE RIDDLE")
-                .foregroundColor(.accent)
                 .font(.londrinaHeadline)
-                .frame(width: 180, height: 50)
-                .background(.dark)
-                .cornerRadius(10)
+                .foregroundColor(.dark)
+                .frame(width: 180, height: 40)
+                .background(.accent)
+                .cornerRadius(40)
                 .overlay(
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(.dark, lineWidth: 2)
+                    RoundedRectangle(cornerRadius: 40)
+                        .stroke(.dark3, lineWidth: 4)
                 )
-                .offset(y: -(500/3.6))
+                .offset(y: -(500/4))
         }
         .offset(y:15)
-//        .overlay(
-//            VStack{
-//                if viewModel.showResultPopup && viewModel.popUpType == .right{
-//                    PopUpView(showPopUp: viewModel.showResultPopup, type: .right)
-//                }
-//                else if viewModel.showResultPopup && viewModel.popUpType == .wrong{
-//                    PopUpView(showPopUp: viewModel.showResultPopup, type: .wrong(viewModel.chances))
-//                }
-//                else if viewModel.showResultPopup && viewModel.popUpType == .lost{
-//                    PopUpView(showPopUp: viewModel.showResultPopup, type: .lost)
-//                }
-//                else if viewModel.showResultPopup && viewModel.popUpType == .frag{
-//                    PopUpView(showPopUp: viewModel.showResultPopup, type: .fragment)
-//                }
-//                else {
-////                    Text("none")
-//                }
-//            }
-//        )
     }
     
     private var multipleOptionsView: some View {

@@ -75,10 +75,14 @@ struct PopUpView: View {
                                                 
                         Text("YOU GOT NEW FRAGMENT!")
                             .font(.londrinaHeadline)
-                            .foregroundColor(.accent)
-                            .frame(width: 200, height: 50)
-                            .background(.dark)
-                            .cornerRadius(10)
+                            .foregroundColor(.dark)
+                            .frame(width: 220, height: 40)
+                            .background(.accent)
+                            .cornerRadius(40)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 40)
+                                    .stroke(.dark, lineWidth: 4)
+                            )
                             .offset(y: -(500/4))
                     }
                     
