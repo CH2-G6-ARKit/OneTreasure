@@ -13,8 +13,8 @@ import Combine
 struct VolcanoIslandView: View {
     @ObservedObject var viewModel: VolcanoIslandViewModel
     @ObservedObject var gameViewModel: GameViewModel
-    @State private var showDialog = true
-    @ObservedObject var dialogViewModel: DialogViewModel
+    @State private var showDialog : Bool = true
+    @ObservedObject var viewModelD : DialogViewModel
     
     
     
@@ -22,26 +22,27 @@ struct VolcanoIslandView: View {
         ZStack {
             VolcanoIslandARViewContainer(viewModel: viewModel)
                 .edgesIgnoringSafeArea(.all)
-            
-            //                .sheet(isPresented: $showDialog) {
-            //                                        DialogView(viewModel: dialogViewModel)
-            //                                    }
+
+//                .sheet(isPresented: $showDialog) {
+//                    DialogView(viewModel: viewModelD)
+//                }
+
             
             //use overlay
             if showDialog {
                 //             Semi-transparent background
-                Color.black.opacity(0.5)
-                    .edgesIgnoringSafeArea(.all)
-                    .onTapGesture {
-                        withAnimation {
-                            showDialog = false
-                        }
-                    }
+//                Color.black.opacity(0.4)
+//                    .blur(radius: 20)
+//                    .edgesIgnoringSafeArea(.all)
+//                    .onTapGesture {
+//                        withAnimation {
+//                            showDialog = false
+//                        }
+//                    }
                 
                 // Dialog view
-                DialogView(viewModel: dialogViewModel)
+                DialogView(viewModel: viewModelD, showDialog:$showDialog)
                     .padding()
-                    .background(Color.white)
                     .cornerRadius(12)
                     .shadow(radius: 10)
                     .transition(.scale)

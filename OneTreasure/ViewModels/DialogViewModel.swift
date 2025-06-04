@@ -52,6 +52,7 @@ class DialogViewModel: ObservableObject{
         return currentIndex == 0
     }
     
+    
 }
 
 let dialogPagesData = [

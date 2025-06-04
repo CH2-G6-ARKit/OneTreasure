@@ -11,7 +11,8 @@ import SwiftUI
 struct OneTreasureApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(viewModelD: DialogViewModel()) // ✅ Add this!
+
                 .background(.accent)
         }
     }
