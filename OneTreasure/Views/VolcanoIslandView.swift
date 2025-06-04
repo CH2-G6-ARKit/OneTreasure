@@ -95,7 +95,9 @@ struct VolcanoIslandView: View {
                     .transition(.opacity)
                     .zIndex(1)
                 
-                RiddleView(viewModel: riddleViewModel)
+                RiddleView(viewModel: riddleViewModel,  onClose: {
+                    viewModel.dismissRiddle()
+                })
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .transition(.move(edge: .bottom).combined(with: .opacity))
                     .zIndex(2)
@@ -184,12 +186,12 @@ struct VolcanoIslandView: View {
                         guard let self = self else { return }
                         
                         loadedIslandEntity.name = islandData.islandThemeModelName
-//                        loadedIslandEntity.position = islandData.islandThemePosition
-//                        loadedIslandEntity.scale = islandData.islandThemeScale
-                        
+                        loadedIslandEntity.scale = islandData.islandThemeScale
                         parentAnchor.addChild(loadedIslandEntity)
                         self.islandEntity = loadedIslandEntity
                         print("Coordinator: Island theme '\(islandData.islandThemeModelName)' loaded.")
+                        print("Island transform: \(loadedIslandEntity.transform)")
+
                         
                         self.loadChestAsset(parentEntity: loadedIslandEntity)
                         self.loadBirdAsset(parentEntity: loadedIslandEntity)
@@ -210,13 +212,15 @@ struct VolcanoIslandView: View {
                         guard let self = self else { return }
                         
                         loadedChestEntity.name = islandData.chestModelFileName
-//                        loadedChestEntity.position = islandData.chestPosition
-//                        loadedChestEntity.scale = islandData.chestScale
+                        loadedChestEntity.scale = islandData.chestScale
+                        loadedChestEntity.transform.rotation = simd_quatf(angle: 0, axis: [0, 1, 0])
                         loadedChestEntity.generateCollisionShapes(recursive: true)
                         
                         parentEntity.addChild(loadedChestEntity)
                         self.chestEntity = loadedChestEntity
                         print("Coordinator: Chest '\(islandData.chestModelFileName)' loaded.")
+                        print("Chest transform: \(loadedChestEntity.transform)")
+
                         
                         let chestWorldTransform = loadedChestEntity.transformMatrix(relativeTo: nil)
                         let chestWorldPosition = SIMD3<Float>(chestWorldTransform.columns.3.x, chestWorldTransform.columns.3.y, chestWorldTransform.columns.3.z)
@@ -239,10 +243,14 @@ struct VolcanoIslandView: View {
                         loadedBirdEntity.name = islandData.birdModelFileName
                         loadedBirdEntity.position = islandData.birdPosition
                         loadedBirdEntity.scale = islandData.birdScale
+//                        loadedBirdEntity.transform.scale = SIMD3<Float>(1.0, 1.0, 1.0)
+
                         
                         parentEntity.addChild(loadedBirdEntity)
                         self.birdEntity = loadedBirdEntity
                         print("Coordinator: Bird '\(islandData.birdModelFileName)' loaded.")
+                        print("Bird transform: \(loadedBirdEntity.transform)")
+
                         
                         
                         do {
@@ -268,6 +276,7 @@ struct VolcanoIslandView: View {
                 let cameraTransform = frame.camera.transform
                 let playerPosition = SIMD3<Float>(cameraTransform.columns.3.x, cameraTransform.columns.3.y, cameraTransform.columns.3.z)
                 viewModel.updatePlayerPosition(playerPosition)
+                
             }
             
             @objc func handleTap(_ recognizer: UITapGestureRecognizer) {

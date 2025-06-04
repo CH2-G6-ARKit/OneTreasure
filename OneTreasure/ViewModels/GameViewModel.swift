@@ -35,6 +35,8 @@ class GameViewModel: ObservableObject {
         case frag
     }
     
+    @Published var showRiddle: Bool = false
+    @Published var showPopupMap: Bool = false
     @Published var showPopup: Bool = false
     @Published var popupType: PopUpTypes = .right
     
@@ -111,16 +113,25 @@ class GameViewModel: ObservableObject {
     
     func showPopUpFrag() {
         popupType = .frag
-        showPopup = true
+        showPopupMap = true
         print("frag clicked")
     }
     
     func closePopUpFrag() {
-        showPopup = false
+        showPopupMap = false
         popupType = .frag
-        print(showPopup)
+        print(showPopupMap)
         print(popupType)
-        
+    }
+    
+    func openRiddle() {
+        showRiddle = true
+        print(showRiddle)
+    }
+    
+    func closeRiddle() {
+        showRiddle = false
+        print(showRiddle)
     }
     
     func selectIsland(_ island: BaseIsland) {

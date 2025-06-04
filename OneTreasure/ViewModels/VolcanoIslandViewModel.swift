@@ -97,6 +97,16 @@ class VolcanoIslandViewModel: IslandViewModelInterface {
         print("VolcanoIslandViewModel: Chest world target position set to \(position)")
     }
     
+    func dismissRiddle() {
+        riddleViewModel = nil
+        
+        if currentExperienceState == .presentingRiddle {
+            currentExperienceState = .chestFound
+            isChestVisibleAndInteractive = true
+            guidanceFeedback = "The riddle remains. You may return to it when ready."
+        }
+    }
+    
     private func chestAreaApproached() {
         if let gvm = gameViewModel, islandData.awardsFragmentOrder < gvm.playerProgress.collectedFragments {
             currentExperienceState = .alreadyCompleted

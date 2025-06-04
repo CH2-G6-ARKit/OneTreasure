@@ -110,6 +110,16 @@ class DummyIslandViewModel: IslandViewModelInterface {
         print("VolcanoIslandViewModel: Chest area approached. New state: \(currentExperienceState)")
     }
     
+    func dismissRiddle() {
+        riddleViewModel = nil
+        
+        if currentExperienceState == .presentingRiddle {
+            currentExperienceState = .chestFound
+            isChestVisibleAndInteractive = true
+            guidanceFeedback = "The riddle remains. You may return to it when ready."
+        }
+    }
+    
     func interactWithChest() {
         guard currentExperienceState == .chestFound && isChestVisibleAndInteractive else {
             if currentExperienceState == .alreadyCompleted {

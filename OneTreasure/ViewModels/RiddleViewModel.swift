@@ -25,10 +25,6 @@ class RiddleViewModel: ObservableObject {
         case frag
     }
     
-//    @Published var showResultPopup = false
-//    @Published var showLostPopup = false
-//    @Published var showFragPopup = false
-//    @Published var popUpType:PopUpTypes = .right
     @Published var isAnswerCorrect = false
     
     // for simon says pattern matching riddle
@@ -183,52 +179,18 @@ class RiddleViewModel: ObservableObject {
 
         if optionId == question.correctAnswerOptionsId {
             isAnswerCorrect = true
-//            showResultPopup = true
-//            popUpType = .right
-//            print("right popup")
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//                self.popUpType = .right
-//            }
-//            print("hide right popup")
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//                self.showResultPopup = true
-//                self.popUpType = .frag
-//            }
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//                self.showResultPopup = false
-//            }
 
             gameViewModel?.playerSolvedRiddleObjective(
                 onIslandId: gameViewModel?.playerProgress.currentIslandId ?? "",
                 riddleId: riddle.id
             )
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.onRiddleCompleted(true)
-            }
+
+            onRiddleCompleted(true)
 
         } else {
             isAnswerCorrect = false
-//            showResultPopup = true
-//            popUpType = .wrong
-//            print("wrong popup")
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//                self.showResultPopup = false
+//            if (gameViewModel?.playerProgress.answerChances ?? 0) <= 0 {
 //            }
-//            print("hide wrong popup")
-
-//            gameViewModel?.playerFailedRiddleAttempt()
-
-            if (gameViewModel?.playerProgress.answerChances ?? 0) <= 0 {
-//                popUpType = .lost
-//                print("lost popup")
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//                    self.showResultPopup = false
-//                }
-//                print("hide lost popup")
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//                    self.onRiddleCompleted(false)
-//                }
-            }
             gameViewModel?.playerFailedRiddleAttempt()
         }
 

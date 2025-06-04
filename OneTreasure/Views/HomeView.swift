@@ -37,6 +37,7 @@ struct HomeView: View {
                                 .scaleImage(ratio: 0.24, imageName: "playBtn")
                         }
                     }
+                    .offset(y:-10)
                 }
             }
             .background(.accent)

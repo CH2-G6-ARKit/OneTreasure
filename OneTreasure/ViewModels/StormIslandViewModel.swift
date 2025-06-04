@@ -49,7 +49,7 @@ class StormIslandViewModel: IslandViewModelInterface {
         }
         self.islandData = stormIslandData
         self.gameViewModel = gameViewModel
-        print("StormIslandViewModel initialized for: \(stormIslandData.name)")
+        print("StormIslandVireModel initialized for: \(stormIslandData.name)")
     }
     
     func startExperience(arView: ARView) {
@@ -108,6 +108,16 @@ class StormIslandViewModel: IslandViewModelInterface {
             guidanceFeedback = "The Lava Falcon guided you true! The Obsidian Chest awaits your touch."
         }
         print("StormIslandViewModel: Chest area approached. New state: \(currentExperienceState)")
+    }
+    
+    func dismissRiddle() {
+        riddleViewModel = nil
+        
+        if currentExperienceState == .presentingRiddle {
+            currentExperienceState = .chestFound
+            isChestVisibleAndInteractive = true
+            guidanceFeedback = "The riddle remains. You may return to it when ready."
+        }
     }
     
     func interactWithChest() {

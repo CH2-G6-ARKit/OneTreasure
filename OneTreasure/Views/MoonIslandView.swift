@@ -95,7 +95,9 @@ struct MoonIslandView: View {
                     .transition(.opacity)
                     .zIndex(1)
                 
-                RiddleView(viewModel: riddleViewModel)
+                RiddleView(viewModel: riddleViewModel,  onClose: {
+                    viewModel.dismissRiddle()
+                })
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .transition(.move(edge: .bottom).combined(with: .opacity))
                     .zIndex(2)
@@ -184,6 +186,7 @@ struct MoonIslandView: View {
                         guard let self = self else { return }
                         
                         loadedIslandEntity.name = islandData.islandThemeModelName
+                        loadedIslandEntity.scale = islandData.islandThemeScale
 //                        loadedIslandEntity.position = islandData.islandThemePosition
 //                        loadedIslandEntity.scale = islandData.islandThemeScale
                         
@@ -210,6 +213,8 @@ struct MoonIslandView: View {
                         guard let self = self else { return }
                         
                         loadedChestEntity.name = islandData.chestModelFileName
+                        loadedChestEntity.scale = islandData.chestScale
+                        loadedChestEntity.transform.rotation = simd_quatf(angle: 0, axis: [0, 1, 0])
 //                        loadedChestEntity.position = islandData.chestPosition
 //                        loadedChestEntity.scale = islandData.chestScale
                         loadedChestEntity.generateCollisionShapes(recursive: true)
