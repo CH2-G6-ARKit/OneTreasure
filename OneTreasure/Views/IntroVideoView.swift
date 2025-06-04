@@ -26,7 +26,7 @@ struct IntroVideoView: View {
     var body: some View {
         ZStack {
             CustomVideoPlayerViewRepresentable(player: player)
-                .edgesIgnoringSafeArea(.all)
+                .edgesIgnoringSafeArea(.vertical)
                 .onAppear {
                     player.play()
                     
@@ -54,9 +54,16 @@ struct IntroVideoView: View {
                 player.pause()
                 gameVM.introVideoDidFinishOrSkipped()
             }) {
-                Image("close")
-                    .foregroundColor(.dark)
-                    .font(.title2)
+                HStack {
+                    Text("SKIP")
+                        .font(.londrinaBody)
+                        .foregroundColor(.dark)
+                    
+                    Image("Skip")
+                        .resizable()
+                        .frame(width: 32, height: 32)
+                        .foregroundColor(.dark)
+                }
             }
             .offset(x:380, y:-150)
             .buttonStyle(.plain)
