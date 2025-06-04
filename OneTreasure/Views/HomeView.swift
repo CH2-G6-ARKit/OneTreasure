@@ -13,6 +13,10 @@ struct HomeView: View {
     var body: some View {
         NavigationStack {
             VStack {
+                HStack {
+                    Spacer()
+                }
+                
                 ZStack{
                     Image("bg_map")
                         .resizable()
@@ -35,6 +39,7 @@ struct HomeView: View {
                     }
                 }
             }
+            .background(.accent)
         }
     }
 }
