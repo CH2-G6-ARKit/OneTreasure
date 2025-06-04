@@ -21,6 +21,8 @@ class IceIslandViewModel: IslandViewModelInterface {
     
     @Published var chestWorldPosition: SIMD3<Float>? = nil
     
+    @Published var isPaused: Bool = false
+    
     var island: BaseIsland { islandData }
     var islandName: String { islandData.name }
     var islandDescription: String { islandData.descriptionText }
@@ -90,6 +92,27 @@ class IceIslandViewModel: IslandViewModelInterface {
         } else {
             guidanceFeedback = "Follow the haunting call of the Lava Falcon..."
         }
+    }
+    
+    func tooglePause() {
+        isPaused.toggle()
+        if isPaused {
+            print("VolcanoIslandViewModel: Game Paused.")
+        } else {
+            print("VolcanoIslandViewModel: Game Resumed.")
+        }
+    }
+    
+    func resumeGame() {
+        if isPaused {
+            isPaused = false
+            print("VolcanoIslandViewModel: Game Resumed from Pause Menu.")
+        }
+    }
+    
+    func exitToMap() {
+        isPaused = false
+        gameViewModel?.exitIsland(arView: arViewRef ?? ARView())
     }
     
     func setChestWorldTarget(position: SIMD3<Float>) {
