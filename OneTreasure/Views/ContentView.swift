@@ -53,6 +53,22 @@ struct ContentView: View {
                 }
             }
         }
+        .overlay(
+            VStack{
+                if gameVM.showPopup && gameVM.popupType == .right{
+                    PopUpView(showPopUp: gameVM.showPopup, type: .right)
+                }
+                if gameVM.showPopup && gameVM.popupType == .wrong{
+                    PopUpView(showPopUp: gameVM.showPopup, type: .wrong(gameVM.playerProgress.answerChances))
+                }
+                if gameVM.showPopup && gameVM.popupType == .lost{
+                    PopUpView(showPopUp: gameVM.showPopup, type: .lost)
+                }
+                if gameVM.showPopup && gameVM.popupType == .frag{
+                    PopUpView(showPopUp: gameVM.showPopup, type: .fragment(gameVM.playerProgress.collectedFragments))
+                }
+            }
+        )
 //        .alert("Game Over!", isPresented: $gameVM.showGameOverAlert) {
 //            Button("Restart", role: .destructive) {
 //                gameVM.showGameOverAlert = false

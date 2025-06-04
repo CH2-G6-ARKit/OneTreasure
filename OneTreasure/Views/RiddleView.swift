@@ -64,25 +64,25 @@ struct RiddleView: View {
                 .offset(y: -(500/3.6))
         }
         .offset(y:15)
-        .overlay(
-            VStack{
-                if viewModel.showResultPopup && viewModel.popUpType == .right{
-                    PopUpView(showPopUp: viewModel.showResultPopup, type: .result(true))
-                }
-                else if viewModel.showResultPopup && viewModel.popUpType == .wrong{
-                    PopUpView(showPopUp: viewModel.showResultPopup, type: .result(false))
-                }
-                else if viewModel.showResultPopup && viewModel.popUpType == .lost{
-                    PopUpView(showPopUp: viewModel.showResultPopup, type: .lost)
-                }
-                else if viewModel.showResultPopup && viewModel.popUpType == .frag{
-                    PopUpView(showPopUp: viewModel.showResultPopup, type: .fragment)
-                }
-                else {
-//                    Text("none")
-                }
-            }
-        )
+//        .overlay(
+//            VStack{
+//                if viewModel.showResultPopup && viewModel.popUpType == .right{
+//                    PopUpView(showPopUp: viewModel.showResultPopup, type: .right)
+//                }
+//                else if viewModel.showResultPopup && viewModel.popUpType == .wrong{
+//                    PopUpView(showPopUp: viewModel.showResultPopup, type: .wrong(viewModel.chances))
+//                }
+//                else if viewModel.showResultPopup && viewModel.popUpType == .lost{
+//                    PopUpView(showPopUp: viewModel.showResultPopup, type: .lost)
+//                }
+//                else if viewModel.showResultPopup && viewModel.popUpType == .frag{
+//                    PopUpView(showPopUp: viewModel.showResultPopup, type: .fragment)
+//                }
+//                else {
+////                    Text("none")
+//                }
+//            }
+//        )
     }
     
     private var multipleOptionsView: some View {
@@ -235,12 +235,12 @@ struct RiddleView_Previews: PreviewProvider {
     }()
     
     static var previews: some View {
-        RiddleView(viewModel: RiddleViewModel(riddle: preview_mcRiddle, gameViewModel: previewGameVM, onRiddleCompleted: { success in print("Preview MC Riddle completed: \(success)") }))
+        RiddleView(viewModel: RiddleViewModel(chances: previewGameVM.playerProgress.answerChances, riddle: preview_mcRiddle, gameViewModel: previewGameVM, onRiddleCompleted: { success in print("Preview MC Riddle completed: \(success)") }))
             .previewDisplayName("Multiple Options Riddle")
             .padding()
             .background(Color(UIColor.secondarySystemBackground))
         
-        RiddleView(viewModel: RiddleViewModel(riddle: preview_ssRiddle, gameViewModel: previewGameVM, onRiddleCompleted: { success in print("Preview SS Riddle completed: \(success)")}))
+        RiddleView(viewModel: RiddleViewModel(chances: previewGameVM.playerProgress.answerChances, riddle: preview_ssRiddle, gameViewModel: previewGameVM, onRiddleCompleted: { success in print("Preview SS Riddle completed: \(success)")}))
             .previewDisplayName("Simon Says Pattern Riddle")
             .padding()
             .background(Color(UIColor.secondarySystemBackground))

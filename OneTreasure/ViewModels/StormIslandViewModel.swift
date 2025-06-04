@@ -143,6 +143,7 @@ class StormIslandViewModel: IslandViewModelInterface {
         
         currentExperienceState = .presentingRiddle
         self.riddleViewModel = RiddleViewModel(
+            chances: gameVM.playerProgress.answerChances,
             riddle: riddleModel,
             gameViewModel: gameVM,
             onRiddleCompleted: { [weak self] (isCorrect: Bool) in

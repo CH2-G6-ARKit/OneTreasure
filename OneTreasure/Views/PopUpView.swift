@@ -21,76 +21,48 @@ struct PopUpView: View {
     
     enum Types {
 //        case question(MultipleChoiceQuestionItem)
-        case result(Bool)
-        case fragment
+        case right
+        case fragment(Int)
         case lost
+        case wrong(Int)
     }
     
     var body: some View {
         if showPopUp {
             ZStack {
-                Color.black.opacity(0.3).ignoresSafeArea()
+//                Color.black.opacity(0.3).ignoresSafeArea()
                 
                 switch type {
-                case .result(let isCorrect):
+                case .right:
                     ZStack{
-                        Image(isCorrect ? "right" : "wrong")
+                        Image("right")
                             .scaleImage(ratio: 0.7, imageName: "right")
-                        Text(isCorrect ? "RIDDLE" : "WRONG")
-                            .font(.jaroBig)
-                            .outlinedText(strokeColor: .dark, textColor: .accent, lineWidth: 5.5)
-                            .fontWeight(.bold)
-                            .multilineTextAlignment(.center)
-//                            .bold()
-                            .padding()
-                            .offset(y:60)
-                        Text(isCorrect ? "SOLVED!" : "ANSWER")
-                            .font(.jaroBig)
-                            .outlinedText(strokeColor: .dark, textColor: .accent, lineWidth: 5.5)
-                            .multilineTextAlignment(.center)
-                            .padding()
-                            .offset(y:110)
+                        VStack{
+                            Text("RIDDLE")
+                                .font(.jaroBig)
+                                .outlinedText(strokeColor: .dark, textColor: .accent, lineWidth: 5.5)
+                                .fontWeight(.bold)
+                                .multilineTextAlignment(.center)
+                                .padding()
+                                .offset(y:75)
+                            Text("SOLVED")
+                                .font(.jaroBig)
+                                .outlinedText(strokeColor: .dark, textColor: .accent, lineWidth: 5.5)
+                                .multilineTextAlignment(.center)
+                                .padding()
+//                                    .offset(y:110)
+                        }
+                        .offset(y:50)
                     }
                     .offset(y:-30)
-                    if !isCorrect {
-                        ZStack {
-                            ShadowedRoundedBackground(strokeWidth: 2, width: 150, height: 50, yOffset: 4)
-                            Button {
-                                onRetry?()
-                            } label: {
-                                Text("RETRY")
-                                    .font(.londrinaTitle)
-                                    .frame(width: 150, height: 50)
-                                    .foregroundColor(.accent)
-                                    .background(.dark2)
-                                    .cornerRadius(10)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 10)
-                                            .stroke(.dark2, lineWidth: 2)
-                                    )
-                            }
-                        }
-                        .offset(y: 150)
-                    }
 
                     
-                case .fragment:
+                case .fragment(let count):
                     ZStack {
                         ShadowedRoundedBackground()
-                        VStack {
-                            Image("map")
-                                .resizable()
-                                .frame(width:200, height:150)
-//                            NavigationLink(destination: MapView()
-//                                .ignoresSafeArea(edges: .all)
-//                            ) {
-//                                Text("OK")
-//                                    .padding()
-//                                    .padding(.horizontal, 20)
-//                                    .foregroundColor(.white)
-//                                    .background(.black)
-//                                    .cornerRadius(10)
-//                            }
+                        VStack{
+                            FragmentView(count: count)
+                            ButtonView(btnType: .text("OK"))
                         }
                         .frame(width: 400, height: 250)
                         .background(.accent)
@@ -100,7 +72,6 @@ struct PopUpView: View {
                                 .stroke(.dark, lineWidth: 4)
                         )
                         .padding(.horizontal, 100)
-                        .transition(.scale.combined(with: .opacity))
                                                 
                         Text("YOU GOT NEW FRAGMENT!")
                             .font(.londrinaHeadline)
@@ -109,7 +80,6 @@ struct PopUpView: View {
                             .background(.dark)
                             .cornerRadius(10)
                             .offset(y: -(500/4))
-                        
                     }
                     
                 case .lost:
@@ -123,6 +93,45 @@ struct PopUpView: View {
                             .padding()
                             .offset(y:60)
                     }
+                    
+                case .wrong(let chance):
+                    VStack{
+                        ZStack{
+                            Image("wrong")
+                                .scaleImage(ratio: 0.7, imageName: "wrong")
+                            VStack{
+                                Text("WRONG")
+                                    .font(.jaroBig)
+                                    .outlinedText(strokeColor: .dark, textColor: .accent, lineWidth: 5.5)
+                                    .fontWeight(.bold)
+                                    .multilineTextAlignment(.center)
+                                    .padding()
+                                    .offset(y:75)
+                                Text("ANSWER")
+                                    .font(.jaroBig)
+                                    .outlinedText(strokeColor: .dark, textColor: .accent, lineWidth: 5.5)
+                                    .multilineTextAlignment(.center)
+                                    .padding()
+//                                    .offset(y:110)
+                            }
+                            .offset(y:50)
+                        }
+                        .offset(y:-30)
+                        ZStack{
+                            ShadowedRoundedBackground(width: 150, height: 40)
+//                                .frame(width: 150, height: 40)
+                            Text("\(chance) \(chance<=1 ?"chance" : "chances" ) left")
+                                .font(.londrinaBody)
+                                .frame(width: 150, height: 40)
+                                .foregroundColor(.dark)
+                                .background(.accent)
+                                .cornerRadius(10)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .stroke(.dark, lineWidth: 4)
+                                )
+                        }
+                    }
                 }
             }
         }
@@ -131,8 +140,8 @@ struct PopUpView: View {
 
 
 #Preview {
-//            PopUpView(showPopUp: .constant(true), type: .result(true))
-//        PopUpView(showPopUp: .constant(true), type: .result(false))
-        PopUpView(showPopUp: true, type: .fragment)
-//    PopUpView(showPopUp: .constant(true), type: .lost)
+//            PopUpView(showPopUp: true, type: .right)
+//        PopUpView(showPopUp: true, type: .wrong(2))
+        PopUpView(showPopUp: true, type: .fragment(2))
+//    PopUpView(showPopUp: true, type: .lost)
 }

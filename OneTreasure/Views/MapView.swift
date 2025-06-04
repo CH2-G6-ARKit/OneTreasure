@@ -60,7 +60,6 @@ struct MapView: View {
     @ViewBuilder
     private func islandRow(for island: BaseIsland) -> some View {
                 let isUnlocked = gameVM.playerProgress.unlockedIslandIds.contains(island.id)
-        let unlockedIslands = gameVM.playerProgress.unlockedIslandIds
 //                let isSolved = island.awardsFragmentOrder < gameVM.playerProgress.collectedFragments
         let index = gameVM.gameData?.islands.firstIndex(where: { $0.id == island.id }) ?? 0
         

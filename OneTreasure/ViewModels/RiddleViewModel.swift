@@ -25,8 +25,10 @@ class RiddleViewModel: ObservableObject {
         case frag
     }
     
-    @Published var showResultPopup = false
-    @Published var popUpType:PopUpTypes = .right
+//    @Published var showResultPopup = false
+//    @Published var showLostPopup = false
+//    @Published var showFragPopup = false
+//    @Published var popUpType:PopUpTypes = .right
     @Published var isAnswerCorrect = false
     
     // for simon says pattern matching riddle
@@ -39,6 +41,7 @@ class RiddleViewModel: ObservableObject {
     @Published var simonSays_bankIsCompleted: Bool = false
     @Published var simonSays_currentlyHighlightedBox: Int? = nil
     
+    @Published var chances: Int
     private let riddle: RiddleModel
     private weak var gameViewModel: GameViewModel?
     private var onRiddleCompleted: (Bool) -> Void
@@ -54,15 +57,16 @@ class RiddleViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     init(
+        chances: Int,
         riddle: RiddleModel,
         gameViewModel: GameViewModel,
         onRiddleCompleted: @escaping (Bool) -> Void
     ) {
+        self.chances = chances
         self.riddle = riddle
         self.riddleId = riddle.id
         self.gameViewModel = gameViewModel
         self.onRiddleCompleted = onRiddleCompleted
-        
         self.questionText = riddle.questionText
         
         setupRiddleContent()
@@ -160,19 +164,6 @@ class RiddleViewModel: ObservableObject {
         }
     }
     
-//    private func loadMultipleChoiceQuestion(at index: Int) {
-//        guard index < mc_questionBank.count else {
-//            mcBankIsCompleted = true
-//            if !mc_questionBank.isEmpty { onRiddleCompleted(false) }
-//            updateActiveRiddleState()
-//            return
-//        }
-//        let questionItem = mc_questionBank[index]
-//        self.currentQuestionPrompt = questionItem.itemPrompt
-//        self.currentOptions = questionItem.options
-//        self.mc_currentQuestionIndex = index
-//        updateActiveRiddleState()
-//    }
     private var selectedQuestion: MultipleChoiceQuestionItem?
 
     func loadSingleRiddleQuestion() {
@@ -187,42 +178,25 @@ class RiddleViewModel: ObservableObject {
         currentOptions = selectedQuestion?.options ?? []
     }
     
-//    func mc_selectOption(optionId: String) {
-//        guard mc_currentQuestionIndex < mc_questionBank.count else { return }
-//        let currentQuestion = mc_questionBank[mc_currentQuestionIndex]
-//        
-//        if optionId == currentQuestion.correctAnswerOptionsId {
-//            gameViewModel?.playerSolvedRiddleObjective(onIslandId: gameViewModel?.playerProgress.currentIslandId ?? "", riddleId: riddle.id)
-//            onRiddleCompleted(true)
-//            updateActiveRiddleState()
-//        } else {
-//            gameViewModel?.playerFailedRiddleAttempt()
-//            
-//            if (gameViewModel?.playerProgress.answerChances ?? 0) > 0 {
-//                mc_currentQuestionIndex += 1
-//                
-//                loadMultipleChoiceQuestion(at: mc_currentQuestionIndex)
-//                
-//            } else {
-//                // No lives left, GameViewModel will handle game over.
-//                // The onRiddleCompleted(false) will be implicitly handled by game reset or by IslandVM.
-//            }
-//        }
-//    }
-    
     func mc_selectOption(optionId: String) {
         guard let question = selectedQuestion else { return }
 
         if optionId == question.correctAnswerOptionsId {
             isAnswerCorrect = true
-            showResultPopup = true
-            popUpType = .right
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.popUpType = .right
-            }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.showResultPopup = false
-            }
+//            showResultPopup = true
+//            popUpType = .right
+//            print("right popup")
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//                self.popUpType = .right
+//            }
+//            print("hide right popup")
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//                self.showResultPopup = true
+//                self.popUpType = .frag
+//            }
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//                self.showResultPopup = false
+//            }
 
             gameViewModel?.playerSolvedRiddleObjective(
                 onIslandId: gameViewModel?.playerProgress.currentIslandId ?? "",
@@ -234,23 +208,28 @@ class RiddleViewModel: ObservableObject {
 
         } else {
             isAnswerCorrect = false
-            showResultPopup = true
-            popUpType = .wrong
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.showResultPopup = false
-            }
+//            showResultPopup = true
+//            popUpType = .wrong
+//            print("wrong popup")
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//                self.showResultPopup = false
+//            }
+//            print("hide wrong popup")
 
-            gameViewModel?.playerFailedRiddleAttempt()
+//            gameViewModel?.playerFailedRiddleAttempt()
 
             if (gameViewModel?.playerProgress.answerChances ?? 0) <= 0 {
-                popUpType = .lost
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.showResultPopup = false
-                }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.onRiddleCompleted(false)
-                }
+//                popUpType = .lost
+//                print("lost popup")
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//                    self.showResultPopup = false
+//                }
+//                print("hide lost popup")
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//                    self.onRiddleCompleted(false)
+//                }
             }
+            gameViewModel?.playerFailedRiddleAttempt()
         }
 
         updateActiveRiddleState()

@@ -28,10 +28,15 @@ class GameViewModel: ObservableObject {
     @Published var showGameWonAlert: Bool = false
     @Published var errorMessage: String?
     
-    @Published var showPopUpRight: Bool = false
-    @Published var showPopUpWrong: Bool = false
-    @Published var showPopUpFrag: Bool = false
-    @Published var showPopUpLost: Bool = false
+    enum PopUpTypes{
+        case right
+        case wrong
+        case lost
+        case frag
+    }
+    
+    @Published var showPopup: Bool = false
+    @Published var popupType: PopUpTypes = .right
     
     private let dataService = GameDataService()
     private var initialIslandIdPlaceholder = "volcano_island"
@@ -132,18 +137,25 @@ class GameViewModel: ObservableObject {
         playerProgress.answerChances -= 1
         print("GameViewModel: Player lost a chance. Answer chances remaining: \(playerProgress.answerChances)")
         
-        showPopUpWrong = true
+        print("wrong popup")
+        popupType = .wrong
+        showPopup = true
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.showPopUpWrong = false
+            self.showPopup = false
         }
+        print("hide wrong popup")
         
         if playerProgress.answerChances <= 0 {
-            showPopUpLost = true
+            print("lost popup")
+            popupType = .lost
+            showPopup = true
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.showPopUpLost = false
+                self.showPopup = false
             }
-            resetGameProgressAndSave()
-            showGameOverAlert = true
+            print("hide lost popup")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.resetGameProgressAndSave()
+            }
         } else {
             saveCurrentProgress()
         }
@@ -154,20 +166,27 @@ class GameViewModel: ObservableObject {
             print("GameViewModel Error: Island \(onIslandId) not found when trying to solve riddle objective.")
             return
         }
-        showPopUpRight = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            self.showPopUpRight = false
+        print("right popup")
+        popupType = .right
+        showPopup = true
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.showPopup = false
+
+            // After hiding "right", show "frag"
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { // short delay before showing next
+                self.popupType = .frag
+                self.showPopup = true
+
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.showPopup = false
+                }
+            }
         }
         
         if island.awardsFragmentOrder == playerProgress.collectedFragments {
             playerProgress.collectedFragments += 1
             print("GameViewModel: Map Fragment \(playerProgress.collectedFragments) collected!")
-            
-            showPopUpFrag = true
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                self.showPopUpFrag = false
-            }
-            
             
             if playerProgress.collectedFragments >= 4 {
                 showGameWonAlert = true

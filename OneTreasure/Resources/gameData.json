@@ -18,7 +18,7 @@
             "chestScale": [0, 0, 0],
             "birdModelFileName": "crow",
             "birdPosition": [0.004, 0, 0],
-            "birdScale": [0.05, 0.05, 0.05],
+            "birdScale": [0, 0, 0],
             "birdAudioFileName": "an_ominous-crow-call-255173.mp3",
         },
         {
