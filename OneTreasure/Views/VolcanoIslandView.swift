@@ -13,11 +13,42 @@ import Combine
 struct VolcanoIslandView: View {
     @ObservedObject var viewModel: VolcanoIslandViewModel
     @ObservedObject var gameViewModel: GameViewModel
+    @State private var showDialog : Bool = true
+    @ObservedObject var viewModelD : DialogViewModel
+    
+    
     
     var body: some View {
         ZStack {
             VolcanoIslandARViewContainer(viewModel: viewModel)
                 .edgesIgnoringSafeArea(.all)
+
+//                .sheet(isPresented: $showDialog) {
+//                    DialogView(viewModel: viewModelD)
+//                }
+
+            
+            //use overlay
+            if showDialog {
+                //             Semi-transparent background
+//                Color.black.opacity(0.4)
+//                    .blur(radius: 20)
+//                    .edgesIgnoringSafeArea(.all)
+//                    .onTapGesture {
+//                        withAnimation {
+//                            showDialog = false
+//                        }
+//                    }
+                
+                // Dialog view
+                DialogView(viewModel: viewModelD, showDialog:$showDialog)
+                    .padding()
+                    .cornerRadius(12)
+                    .shadow(radius: 10)
+                    .transition(.scale)
+                    .zIndex(1)
+            }
+            
             
             VStack {
                 HStack {
@@ -110,6 +141,7 @@ struct VolcanoIslandView: View {
     struct VolcanoIslandARViewContainer: UIViewRepresentable {
         @ObservedObject var viewModel: VolcanoIslandViewModel
         
+        
         func makeUIView(context: Context) -> ARView {
             let arView = ARView(frame: .zero, cameraMode: .ar, automaticallyConfigureSession: false)
             
@@ -187,6 +219,7 @@ struct VolcanoIslandView: View {
                         
                         loadedIslandEntity.name = islandData.islandThemeModelName
                         loadedIslandEntity.scale = islandData.islandThemeScale
+
                         parentAnchor.addChild(loadedIslandEntity)
                         self.islandEntity = loadedIslandEntity
                         print("Coordinator: Island theme '\(islandData.islandThemeModelName)' loaded.")
@@ -214,6 +247,7 @@ struct VolcanoIslandView: View {
                         loadedChestEntity.name = islandData.chestModelFileName
                         loadedChestEntity.scale = islandData.chestScale
                         loadedChestEntity.transform.rotation = simd_quatf(angle: 0, axis: [0, 1, 0])
+
                         loadedChestEntity.generateCollisionShapes(recursive: true)
                         
                         parentEntity.addChild(loadedChestEntity)

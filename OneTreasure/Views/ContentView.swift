@@ -11,6 +11,8 @@ import RealityKit
 
 struct ContentView: View {
     @StateObject private var gameVM = GameViewModel()
+    @StateObject var viewModelD : DialogViewModel
+
     
     var body: some View {
         Group {
@@ -36,7 +38,7 @@ struct ContentView: View {
                     if let islandVM = gameVM.currentIslandViewModel {
                         switch islandVM {
                         case let volcanoIslandVM as VolcanoIslandViewModel:
-                            VolcanoIslandView(viewModel: volcanoIslandVM, gameViewModel: gameVM)
+                            VolcanoIslandView(viewModel: volcanoIslandVM, gameViewModel: gameVM, viewModelD: viewModelD )
                         case let moonIslandVM as MoonIslandViewModel:
                             MoonIslandView(viewModel: moonIslandVM, gameViewModel: gameVM)
                         case let jungleIslandVM as JungleIslandViewModel:
@@ -95,6 +97,8 @@ struct ContentView: View {
     }
 }
 
-#Preview {
-    ContentView()
-}
+//
+//#Preview {
+//    ContentView( viewModelD:  DialogViewModel)
+//}
+
