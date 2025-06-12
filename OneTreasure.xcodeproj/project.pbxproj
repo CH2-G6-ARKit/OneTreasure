@@ -434,7 +434,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"OneTreasure/Preview Content\"";
+<<<<<<< HEAD
 				DEVELOPMENT_TEAM = H2B3LVTSVK;
+=======
+				DEVELOPMENT_TEAM = R5Z572B6J9;
+>>>>>>> 029de2e0ec7e79a364ead61daa53d4dfbc3058d3
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/OneTreasure/Info.plist";
@@ -464,7 +468,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"OneTreasure/Preview Content\"";
+<<<<<<< HEAD
 				DEVELOPMENT_TEAM = H2B3LVTSVK;
+=======
+				DEVELOPMENT_TEAM = R5Z572B6J9;
+>>>>>>> 029de2e0ec7e79a364ead61daa53d4dfbc3058d3
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/OneTreasure/Info.plist";

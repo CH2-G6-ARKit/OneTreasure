@@ -14,8 +14,14 @@ protocol IslandViewModelInterface: ObservableObject {
     var islandDescription: String { get }
     var navigationTitle: String { get }
     
+    var isPaused: Bool { get set }
+    
     init(islandData: BaseIsland, gameViewModel: GameViewModel)
     
     func startExperience(arView: ARView)
     func cleanUpExperience(arView: ARView)
+    
+    func tooglePause()
+    func resumeGame()
+    func exitToMap()
 }
