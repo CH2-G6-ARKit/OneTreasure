@@ -59,12 +59,12 @@ class JungleIslandViewModel: IslandViewModelInterface {
         
         if let gvm = gameViewModel, gvm.playerProgress.completedIslandIds.contains(islandData.id) {
             currentExperienceState = .alreadyCompleted
-            guidanceFeedback = "You recall the fiery trials of this place. The main treasure has been claimed."
+            guidanceFeedback = "You recall the whispers of vines and wisdom. The jungle tome has already been found."
             isChestVisibleAndInteractive = false
         } else {
             currentExperienceState = .searchingForChest
             isChestVisibleAndInteractive = false
-            guidanceFeedback = "A strange bird circles above. Its call seems to echo from a hidden place..."
+            guidanceFeedback = "Leaves rustle strangely… as if a hidden wisdom waits within."
         }
         print("JungleIslandViewModel: startExperience called. State: \(currentExperienceState). Waiting for AR setup and chest world position.")
     }
@@ -88,9 +88,9 @@ class JungleIslandViewModel: IslandViewModelInterface {
                 chestAreaApproached()
             }
         } else if distanceToChest < strongFeedbackRadius {
-            guidanceFeedback = "The Lava Falcon's cry is piercingly clear! You're right upon the source."
+            guidanceFeedback = "The Howler Monkey screeches louder—its cry guards a secret close by!"
         } else {
-            guidanceFeedback = "Follow the haunting call of the Lava Falcon..."
+            guidanceFeedback = "Trace the echo of the Howler Monkey deeper into the canopy…"
         }
     }
     
@@ -126,19 +126,19 @@ class JungleIslandViewModel: IslandViewModelInterface {
         if currentExperienceState == .presentingRiddle {
             currentExperienceState = .chestFound
             isChestVisibleAndInteractive = true
-            guidanceFeedback = "The riddle remains. You may return to it when ready."
+            guidanceFeedback = "The forest’s question remains unanswered. Return when your courage steadies."
         }
     }
     
     private func chestAreaApproached() {
         if let gvm = gameViewModel, gvm.playerProgress.completedIslandIds.contains(islandData.id) {
             currentExperienceState = .alreadyCompleted
-            guidanceFeedback = "This Obsidian Chest... its main secret already yours."
+            guidanceFeedback = "This Wooden Reliquary… its secret has been taken."
             isChestVisibleAndInteractive = false
         } else {
             currentExperienceState = .chestFound
             isChestVisibleAndInteractive = true
-            guidanceFeedback = "The Lava Falcon guided you true! The Obsidian Chest awaits your touch."
+            guidanceFeedback = "The Howler Monkey’s call has brought you true! The Wooden Reliquary lies ahead."
         }
         print("JungleIslandViewModel: Chest area approached. New state: \(currentExperienceState)")
     }
@@ -146,7 +146,7 @@ class JungleIslandViewModel: IslandViewModelInterface {
     func interactWithChest() {
         guard currentExperienceState == .chestFound && isChestVisibleAndInteractive else {
             if currentExperienceState == .alreadyCompleted {
-                guidanceFeedback = "The chest is empty of its primeval magic."
+                guidanceFeedback = "The reliquary is hollow, its sacred script missing."
             } else {
                 print("JungleIslandViewModel: Cannot interact with chest. State: \(currentExperienceState), Interactive: \(isChestVisibleAndInteractive)")
             }
@@ -155,7 +155,7 @@ class JungleIslandViewModel: IslandViewModelInterface {
         
         if let gvm = gameViewModel, gvm.playerProgress.completedIslandIds.contains(islandData.id) {
             currentExperienceState = .alreadyCompleted
-            guidanceFeedback = "You've claimed this prize before."
+            guidanceFeedback = "The wisdom of the tome is already in your grasp."
             isChestVisibleAndInteractive = false
             return
         }
@@ -167,7 +167,7 @@ class JungleIslandViewModel: IslandViewModelInterface {
     private func presentRiddle() {
         guard let gameVM = self.gameViewModel,
               let riddleModel = gameVM.gameData?.riddles.first(where: { $0.id == islandData.chestRiddleId }) else {
-            guidanceFeedback = "Error: The chest's ancient lock is unresponsive (Riddle data missing)."
+            guidanceFeedback = "Error: The reliquary’s wards are unreadable (Riddle data missing)."
             isChestVisibleAndInteractive = true
             currentExperienceState = .chestFound
             print("JungleIslandViewModel Error: Riddle with ID \(islandData.chestRiddleId) not found for \(islandData.name).")
@@ -190,7 +190,7 @@ class JungleIslandViewModel: IslandViewModelInterface {
         
         if isCorrect {
             currentExperienceState = .completedSuccessfully
-            guidanceFeedback = "Victory! The chest opens, revealing a fragment of the lost map!"
+            guidanceFeedback = "Success! The reliquary opens, releasing a fragment of the ancient map!"
             if let gvm = gameViewModel {
                 if !gvm.playerProgress.completedIslandIds.contains(islandData.id) {
                     gvm.playerProgress.completedIslandIds.insert(islandData.id)
@@ -203,10 +203,10 @@ class JungleIslandViewModel: IslandViewModelInterface {
             if (gameViewModel?.playerProgress.answerChances ?? 0) > 0 {
                 currentExperienceState = .chestFound
                 isChestVisibleAndInteractive = true
-                guidanceFeedback = "The chest remains stubbornly sealed. The riddle's challenge persists!"
+                guidanceFeedback = "The jungle’s tome stays sealed. The riddle still breathes through the vines."
             } else {
                 currentExperienceState = .failed
-                guidanceFeedback = "The jungle's heart remains a mystery for now..."
+                guidanceFeedback = "The wisdom of this forest remains veiled… for now."
                 isChestVisibleAndInteractive = false
             }
         }

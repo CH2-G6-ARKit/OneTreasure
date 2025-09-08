@@ -61,12 +61,12 @@ class MoonIslandViewModel: IslandViewModelInterface {
             
             currentExperienceState = .alreadyCompleted
             print("current island \(gameViewModel?.playerProgress.currentIslandId)")
-            guidanceFeedback = "You recall the fiery trials of this place. The main treasure has been claimed."
+            guidanceFeedback = "You remember the silent glow of Moon Island. The star has already been claimed."
             isChestVisibleAndInteractive = false
         } else {
             currentExperienceState = .searchingForChest
             isChestVisibleAndInteractive = false
-            guidanceFeedback = "A strange bird circles above. Its call seems to echo from a hidden place..."
+            guidanceFeedback = "A silver shimmer dances in the night sky… yet the guiding star remains hidden."
         }
         print("<MoonIslandViewModel: startExperience called. State: \(currentExperienceState). Waiting for AR setup and chest world position.")
     }
@@ -90,9 +90,9 @@ class MoonIslandViewModel: IslandViewModelInterface {
                 chestAreaApproached()
             }
         } else if distanceToChest < strongFeedbackRadius {
-            guidanceFeedback = "The Lava Falcon's cry is piercingly clear! You're right upon the source."
+            guidanceFeedback = "The Starlight Owl hoots above! You’re at the very edge of its luminous perch."
         } else {
-            guidanceFeedback = "Follow the haunting call of the Lava Falcon..."
+            guidanceFeedback = "Seek the soft call of the Starlight Owl among the moonlit cliffs…"
         }
     }
     
@@ -125,12 +125,12 @@ class MoonIslandViewModel: IslandViewModelInterface {
     private func chestAreaApproached() {
         if let gvm = gameViewModel, gvm.playerProgress.completedIslandIds.contains(islandData.id) {
             currentExperienceState = .alreadyCompleted
-            guidanceFeedback = "This Obsidian Chest... its main secret already yours."
+            guidanceFeedback = "This Lunar Chest… its radiant prize is no longer here."
             isChestVisibleAndInteractive = false
         } else {
             currentExperienceState = .chestFound
             isChestVisibleAndInteractive = true
-            guidanceFeedback = "The Lava Falcon guided you true! The Obsidian Chest awaits your touch."
+            guidanceFeedback = "The Starlight Owl has guided you well! The Lunar Chest awaits your hand."
         }
         print("MoonIslandViewModel: Chest area approached. New state: \(currentExperienceState)")
     }
@@ -141,14 +141,14 @@ class MoonIslandViewModel: IslandViewModelInterface {
         if currentExperienceState == .presentingRiddle {
             currentExperienceState = .chestFound
             isChestVisibleAndInteractive = true
-            guidanceFeedback = "The riddle remains. You may return to it when ready."
+            guidanceFeedback = "The riddle lingers like starlight behind clouds. Return when your mind is clear."
         }
     }
     
     func interactWithChest() {
         guard currentExperienceState == .chestFound && isChestVisibleAndInteractive else {
             if currentExperienceState == .alreadyCompleted {
-                guidanceFeedback = "The chest is empty of its primeval magic."
+                guidanceFeedback = "The chest lies hollow, its star long faded."
             } else {
                 print("MoonIslandViewModel: Cannot interact with chest. State: \(currentExperienceState), Interactive: \(isChestVisibleAndInteractive)")
             }
@@ -157,7 +157,7 @@ class MoonIslandViewModel: IslandViewModelInterface {
         
         if let gvm = gameViewModel, gvm.playerProgress.completedIslandIds.contains(islandData.id) {
             currentExperienceState = .alreadyCompleted
-            guidanceFeedback = "You've claimed this prize before."
+            guidanceFeedback = "You’ve already drawn power from this constellation’s heart."
             isChestVisibleAndInteractive = false
             return
         }
@@ -192,7 +192,7 @@ class MoonIslandViewModel: IslandViewModelInterface {
         
         if isCorrect {
             currentExperienceState = .completedSuccessfully
-            guidanceFeedback = "Victory! The chest opens, revealing a fragment of the lost map!"
+            guidanceFeedback = "The heavens part! The chest opens, yielding a fragment of the cosmic map!"
             if let gvm = gameViewModel {
                 if !gvm.playerProgress.completedIslandIds.contains(islandData.id) {
                     gvm.playerProgress.completedIslandIds.insert(islandData.id)
@@ -205,10 +205,10 @@ class MoonIslandViewModel: IslandViewModelInterface {
             if (gameViewModel?.playerProgress.answerChances ?? 0) > 0 {
                 currentExperienceState = .chestFound
                 isChestVisibleAndInteractive = true
-                guidanceFeedback = "The chest remains stubbornly sealed. The riddle's challenge persists!"
+                guidanceFeedback = "The Lunar Chest refuses you. The riddle still glows faintly in defiance."
             } else {
                 currentExperienceState = .failed
-                guidanceFeedback = "The moon's heart remains a mystery for now..."
+                guidanceFeedback = "The star’s secret slips beyond your reach… for now."
                 isChestVisibleAndInteractive = false
             }
         }

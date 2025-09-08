@@ -55,18 +55,20 @@ class IceIslandViewModel: IslandViewModelInterface {
     }
     
     func startExperience(arView: ARView) {
-        self.arViewRef = arView
-        
-        if let gvm = gameViewModel, gvm.playerProgress.completedIslandIds.contains(islandData.id) {
-            currentExperienceState = .alreadyCompleted
-            guidanceFeedback = "You recall the fiery trials of this place. The main treasure has been claimed."
-            isChestVisibleAndInteractive = false
-        } else {
-            currentExperienceState = .searchingForChest
-            isChestVisibleAndInteractive = false
-            guidanceFeedback = "A strange bird circles above. Its call seems to echo from a hidden place..."
+        DispatchQueue.main.async {
+            self.arViewRef = arView
+            
+            if let gvm = self.gameViewModel, gvm.playerProgress.completedIslandIds.contains(self.islandData.id) {
+                self.currentExperienceState = .alreadyCompleted
+                self.guidanceFeedback = "You recall the frozen trial. The wooden cart has already been recovered."
+                self.isChestVisibleAndInteractive = false
+            } else {
+                self.currentExperienceState = .searchingForChest
+                self.isChestVisibleAndInteractive = false
+                self.guidanceFeedback = "The northern wind howls… carrying with it a jingle from something lost"
+            }
+            print("IceIslandViewModel: startExperience called. State: \(self.currentExperienceState). Waiting for AR setup and chest world position.")
         }
-        print("IceIslandViewModel: startExperience called. State: \(currentExperienceState). Waiting for AR setup and chest world position.")
     }
     
     func cleanUpExperience(arView: ARView) {
@@ -88,9 +90,9 @@ class IceIslandViewModel: IslandViewModelInterface {
                 chestAreaApproached()
             }
         } else if distanceToChest < strongFeedbackRadius {
-            guidanceFeedback = "The Lava Falcon's cry is piercingly clear! You're right upon the source."
+            guidanceFeedback = "The Frost Reindeer’s bell rings sharp—its source is close at hand!"
         } else {
-            guidanceFeedback = "Follow the haunting call of the Lava Falcon..."
+            guidanceFeedback = "Follow the fading jingle of the Frost Reindeer across the ice…"
         }
     }
     
@@ -126,19 +128,19 @@ class IceIslandViewModel: IslandViewModelInterface {
         if currentExperienceState == .presentingRiddle {
             currentExperienceState = .chestFound
             isChestVisibleAndInteractive = true
-            guidanceFeedback = "The riddle remains. You may return to it when ready."
+            guidanceFeedback = "The riddle lingers, buried beneath snow. You may return when ready."
         }
     }
     
     private func chestAreaApproached() {
         if let gvm = gameViewModel, gvm.playerProgress.completedIslandIds.contains(islandData.id) {
             currentExperienceState = .alreadyCompleted
-            guidanceFeedback = "This Obsidian Chest... its main secret already yours."
+            guidanceFeedback = "This Frostbound Chest… its wonders already taken."
             isChestVisibleAndInteractive = false
         } else {
             currentExperienceState = .chestFound
             isChestVisibleAndInteractive = true
-            guidanceFeedback = "The Lava Falcon guided you true! The Obsidian Chest awaits your touch."
+            guidanceFeedback = "The Frost Reindeer’s bells ring true! The Frostbound Chest gleams before you."
         }
         print("IceIslandViewModel: Chest area approached. New state: \(currentExperienceState)")
     }
@@ -146,7 +148,7 @@ class IceIslandViewModel: IslandViewModelInterface {
     func interactWithChest() {
         guard currentExperienceState == .chestFound && isChestVisibleAndInteractive else {
             if currentExperienceState == .alreadyCompleted {
-                guidanceFeedback = "The chest is empty of its primeval magic."
+                guidanceFeedback = "The chest creaks open only to reveal cold emptiness."
             } else {
                 print("IceIslandViewModel: Cannot interact with chest. State: \(currentExperienceState), Interactive: \(isChestVisibleAndInteractive)")
             }
@@ -155,7 +157,7 @@ class IceIslandViewModel: IslandViewModelInterface {
         
         if let gvm = gameViewModel, gvm.playerProgress.completedIslandIds.contains(islandData.id) {
             currentExperienceState = .alreadyCompleted
-            guidanceFeedback = "You've claimed this prize before."
+            guidanceFeedback = "This prize has already been carried off on icy winds."
             isChestVisibleAndInteractive = false
             return
         }
@@ -167,7 +169,7 @@ class IceIslandViewModel: IslandViewModelInterface {
     private func presentRiddle() {
         guard let gameVM = self.gameViewModel,
               let riddleModel = gameVM.gameData?.riddles.first(where: { $0.id == islandData.chestRiddleId }) else {
-            guidanceFeedback = "Error: The chest's ancient lock is unresponsive (Riddle data missing)."
+            guidanceFeedback = "Error: The chest’s frost runes have melted away (Riddle data missing)."
             isChestVisibleAndInteractive = true
             currentExperienceState = .chestFound
             print("IceIslandViewModel Error: Riddle with ID \(islandData.chestRiddleId) not found for \(islandData.name).")
@@ -190,7 +192,7 @@ class IceIslandViewModel: IslandViewModelInterface {
         
         if isCorrect {
             currentExperienceState = .completedSuccessfully
-            guidanceFeedback = "Victory! The chest opens, revealing a fragment of the lost map!"
+            guidanceFeedback = "Triumph! The chest parts with a gift—another fragment of the lost map!"
             if let gvm = gameViewModel {
                 if !gvm.playerProgress.completedIslandIds.contains(islandData.id) {
                     gvm.playerProgress.completedIslandIds.insert(islandData.id)
@@ -203,10 +205,10 @@ class IceIslandViewModel: IslandViewModelInterface {
             if (gameViewModel?.playerProgress.answerChances ?? 0) > 0 {
                 currentExperienceState = .chestFound
                 isChestVisibleAndInteractive = true
-                guidanceFeedback = "The chest remains stubbornly sealed. The riddle's challenge persists!"
+                guidanceFeedback = "The Frostbound Chest remains sealed. The riddle’s chill continues to bite."
             } else {
                 currentExperienceState = .failed
-                guidanceFeedback = "The ice's heart remains a mystery for now..."
+                guidanceFeedback = "The heart of the ice keeps its mystery sealed… for now."
                 isChestVisibleAndInteractive = false
             }
         }

@@ -28,11 +28,13 @@ struct DialogView: View {
                     
                     Text(viewModel.dialogPages[viewModel.currentIndex].title)
                         .font(.londrinaHeadline)
+                        .foregroundStyle(Color.black)
                         .multilineTextAlignment(.leading)
                         .padding(EdgeInsets(top: 15, leading: 10, bottom: 2, trailing: 10))
                     
                     ExpandableTextView(text: viewModel.dialogPages[viewModel.currentIndex].description)
                         .font(.kanitRegularBody)
+                        .foregroundStyle(Color.black)
                     
                     
                     HStack(){

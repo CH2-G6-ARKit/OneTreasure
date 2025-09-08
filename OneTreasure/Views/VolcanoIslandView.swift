@@ -23,31 +23,7 @@ struct VolcanoIslandView: View {
             VolcanoIslandARViewContainer(viewModel: viewModel)
                 .edgesIgnoringSafeArea(.all)
 
-//                .sheet(isPresented: $showDialog) {
-//                    DialogView(viewModel: viewModelD)
-//                }
-
             
-            //use overlay
-            if showDialog {
-                //             Semi-transparent background
-//                Color.black.opacity(0.4)
-//                    .blur(radius: 20)
-//                    .edgesIgnoringSafeArea(.all)
-//                    .onTapGesture {
-//                        withAnimation {
-//                            showDialog = false
-//                        }
-//                    }
-                
-                // Dialog view
-                DialogView(viewModel: viewModelD, showDialog:$showDialog)
-                    .padding()
-                    .cornerRadius(12)
-                    .shadow(radius: 10)
-                    .transition(.scale)
-                    .zIndex(1)
-            }
             
             
             VStack {
@@ -80,12 +56,14 @@ struct VolcanoIslandView: View {
                 Spacer()
                 
                 VStack(spacing: 15) {
-                    Text(viewModel.guidanceFeedback)
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(Color.black.opacity(0.6))
-                        .cornerRadius(8)
-                        .multilineTextAlignment(.center)
+                    if !showDialog {
+                        Text(viewModel.guidanceFeedback)
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(Color.black.opacity(0.6))
+                            .cornerRadius(8)
+                            .multilineTextAlignment(.center)
+                    }
                     
                     if viewModel.currentExperienceState == .completedSuccessfully {
                         Text("Island Objective Complete!")
@@ -121,6 +99,17 @@ struct VolcanoIslandView: View {
             
             if viewModel.isPaused {
                 PauseView(onResume: {viewModel.resumeGame()}, onExit: {viewModel.exitToMap()})
+                    .zIndex(1)
+            }
+            
+            if showDialog {
+                // Dialog view
+                DialogView(viewModel: viewModelD, showDialog:$showDialog)
+                    .padding()
+                    .cornerRadius(12)
+                    .shadow(radius: 10)
+                    .transition(.scale)
+                    .zIndex(0)
             }
             
             if let riddleViewModel = viewModel.riddleViewModel {

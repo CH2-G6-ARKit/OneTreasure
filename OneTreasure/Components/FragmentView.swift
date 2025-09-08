@@ -13,6 +13,7 @@ struct FragmentView: View {
         FragmentModel(name: "frag1", ratio: 0.2, xOffset: -116*0.4, yOffset: -93*0.4),
         FragmentModel(name: "frag2", ratio: 0.2, xOffset: 119*0.4, yOffset: -92.2*0.4),
         FragmentModel(name: "frag3", ratio: 0.2, xOffset: -114.8*0.4, yOffset: 93*0.4),
+        FragmentModel(name: "frag4", ratio: 0.2, xOffset: 115.3*0.4, yOffset: 93*0.4),
         FragmentModel(name: "frag4", ratio: 0.2, xOffset: 115.3*0.4, yOffset: 93*0.4)
     ]
 
