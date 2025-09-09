@@ -17,6 +17,7 @@ struct PopUpView: View {
         case fragment(Int, Bool)
         case lost
         case wrong(Int)
+        case win
     }
     
     var body: some View {
@@ -134,6 +135,39 @@ struct PopUpView: View {
                                 )
                         }
                     }
+                    
+                case .win:
+                    ZStack {
+                        ShadowedRoundedBackground()
+                        VStack{
+                            ZStack(alignment:.bottom){
+                                Image("Ship")
+                                    .scaleImage(ratio: 0.18, imageName: "Ship")
+                                    .zIndex(1)
+                                Image("Sea")
+                                    .scaleImage(ratio: 0.4, imageName: "Sea")
+                            }
+                        }
+                        .frame(width: 400, height: 250)
+                        .background(.accent)
+                        .cornerRadius(10)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(.dark, lineWidth: 4)
+                        )
+                        
+                        Text("VICTORY!")
+                            .font(.londrinaHeadline)
+                            .foregroundColor(.dark)
+                            .frame(width: 220, height: 40)
+                            .background(.accent)
+                            .cornerRadius(40)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 40)
+                                    .stroke(.dark, lineWidth: 4)
+                            )
+                            .offset(y: -(500/4))
+                    }
                 }
             }
         }
@@ -143,7 +177,8 @@ struct PopUpView: View {
 #Preview {
     //            PopUpView(showPopUp: true, type: .right)
     //        PopUpView(showPopUp: true, type: .wrong(2))
-    PopUpView(showPopUp: .constant(true), type: .fragment(2, true))
+//    PopUpView(showPopUp: .constant(true), type: .fragment(2, true))
 //    PopUpView(showPopUp: .constant(true), type: .fragment(2, false))
     //    PopUpView(showPopUp: true, type: .lost)
+        PopUpView(showPopUp: .constant(true), type: .win)
 }

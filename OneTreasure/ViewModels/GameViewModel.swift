@@ -24,7 +24,7 @@ class GameViewModel: ObservableObject {
     @Published var currentScreen: GameScreen = .home
     
     @Published var isLoading: Bool = true
-    @Published var showGameOverAlert: Bool = false
+//    @Published var showGameOverAlert: Bool = false
     @Published var showGameWonAlert: Bool = false
     @Published var errorMessage: String?
     

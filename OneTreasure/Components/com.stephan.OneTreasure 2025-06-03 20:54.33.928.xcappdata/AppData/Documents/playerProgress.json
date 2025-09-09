@@ -1,0 +1,9 @@
+{
+  "unlockedIslandIds" : [
+    "volcano_island",
+    "moon_island"
+  ],
+  "collectedFragments" : 1,
+  "answerChances" : 3,
+  "currentIslandId" : "volcano_island"
+}

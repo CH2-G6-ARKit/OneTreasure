@@ -50,7 +50,8 @@ struct GameDataModel: Codable {
             
             switch type {
             case .dummySoundQuest:
-                decodeIslands.append(try DummyIsland(from: actualItemDecoderForSubclass))
+//                return nil
+                decodeIslands.append(try VolcanoIsland(from: actualItemDecoderForSubclass))
             case .volcanoSoundQuest:
                 decodeIslands.append(try VolcanoIsland(from: actualItemDecoderForSubclass))
             case .moonSoundQuest:
